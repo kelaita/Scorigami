@@ -1,0 +1,621 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DA80A77A2900A33100982476 /* ScorigamiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7792900A33100982476 /* ScorigamiApp.swift */; };
+		DA80A77C2900A33100982476 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A77B2900A33100982476 /* ContentView.swift */; };
+		DA80A77E2900A33300982476 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA80A77D2900A33300982476 /* Assets.xcassets */; };
+		DA80A7812900A33300982476 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA80A7802900A33300982476 /* Preview Assets.xcassets */; };
+		DA80A78B2900A33400982476 /* ScorigamiTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A78A2900A33400982476 /* ScorigamiTests.swift */; };
+		DA80A7952900A33400982476 /* ScorigamiUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7942900A33400982476 /* ScorigamiUITests.swift */; };
+		DA80A7972900A33400982476 /* ScorigamiUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7962900A33400982476 /* ScorigamiUITestsLaunchTests.swift */; };
+		DA80A7A52900A39F00982476 /* SwiftSoup in Frameworks */ = {isa = PBXBuildFile; productRef = DA80A7A42900A39F00982476 /* SwiftSoup */; };
+		DA80A7A72900A73D00982476 /* Scorigami.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7A62900A73D00982476 /* Scorigami.swift */; };
+		DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */; };
+		DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7AA2903762D00982476 /* URLSession+sync.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DA80A7872900A33400982476 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA80A76E2900A33100982476 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA80A7752900A33100982476;
+			remoteInfo = Scorigami;
+		};
+		DA80A7912900A33400982476 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DA80A76E2900A33100982476 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DA80A7752900A33100982476;
+			remoteInfo = Scorigami;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DA80A7762900A33100982476 /* Scorigami.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scorigami.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA80A7792900A33100982476 /* ScorigamiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiApp.swift; sourceTree = "<group>"; };
+		DA80A77B2900A33100982476 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		DA80A77D2900A33300982476 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA80A7802900A33300982476 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DA80A7862900A33400982476 /* ScorigamiTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScorigamiTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA80A78A2900A33400982476 /* ScorigamiTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiTests.swift; sourceTree = "<group>"; };
+		DA80A7902900A33400982476 /* ScorigamiUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScorigamiUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA80A7942900A33400982476 /* ScorigamiUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiUITests.swift; sourceTree = "<group>"; };
+		DA80A7962900A33400982476 /* ScorigamiUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		DA80A7A62900A73D00982476 /* Scorigami.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorigami.swift; sourceTree = "<group>"; };
+		DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiViewModel.swift; sourceTree = "<group>"; };
+		DA80A7AA2903762D00982476 /* URLSession+sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+sync.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DA80A7732900A33100982476 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA80A7A52900A39F00982476 /* SwiftSoup in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA80A7832900A33400982476 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA80A78D2900A33400982476 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DA80A76D2900A33100982476 = {
+			isa = PBXGroup;
+			children = (
+				DA80A7782900A33100982476 /* Scorigami */,
+				DA80A7892900A33400982476 /* ScorigamiTests */,
+				DA80A7932900A33400982476 /* ScorigamiUITests */,
+				DA80A7772900A33100982476 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DA80A7772900A33100982476 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A7762900A33100982476 /* Scorigami.app */,
+				DA80A7862900A33400982476 /* ScorigamiTests.xctest */,
+				DA80A7902900A33400982476 /* ScorigamiUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DA80A7782900A33100982476 /* Scorigami */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A7AA2903762D00982476 /* URLSession+sync.swift */,
+				DA80A7792900A33100982476 /* ScorigamiApp.swift */,
+				DA80A77B2900A33100982476 /* ContentView.swift */,
+				DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */,
+				DA80A7A62900A73D00982476 /* Scorigami.swift */,
+				DA80A77D2900A33300982476 /* Assets.xcassets */,
+				DA80A77F2900A33300982476 /* Preview Content */,
+			);
+			path = Scorigami;
+			sourceTree = "<group>";
+		};
+		DA80A77F2900A33300982476 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A7802900A33300982476 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DA80A7892900A33400982476 /* ScorigamiTests */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A78A2900A33400982476 /* ScorigamiTests.swift */,
+			);
+			path = ScorigamiTests;
+			sourceTree = "<group>";
+		};
+		DA80A7932900A33400982476 /* ScorigamiUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A7942900A33400982476 /* ScorigamiUITests.swift */,
+				DA80A7962900A33400982476 /* ScorigamiUITestsLaunchTests.swift */,
+			);
+			path = ScorigamiUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DA80A7752900A33100982476 /* Scorigami */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA80A79A2900A33400982476 /* Build configuration list for PBXNativeTarget "Scorigami" */;
+			buildPhases = (
+				DA80A7722900A33100982476 /* Sources */,
+				DA80A7732900A33100982476 /* Frameworks */,
+				DA80A7742900A33100982476 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Scorigami;
+			packageProductDependencies = (
+				DA80A7A42900A39F00982476 /* SwiftSoup */,
+			);
+			productName = Scorigami;
+			productReference = DA80A7762900A33100982476 /* Scorigami.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DA80A7852900A33400982476 /* ScorigamiTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA80A79D2900A33400982476 /* Build configuration list for PBXNativeTarget "ScorigamiTests" */;
+			buildPhases = (
+				DA80A7822900A33400982476 /* Sources */,
+				DA80A7832900A33400982476 /* Frameworks */,
+				DA80A7842900A33400982476 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA80A7882900A33400982476 /* PBXTargetDependency */,
+			);
+			name = ScorigamiTests;
+			productName = ScorigamiTests;
+			productReference = DA80A7862900A33400982476 /* ScorigamiTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DA80A78F2900A33400982476 /* ScorigamiUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA80A7A02900A33400982476 /* Build configuration list for PBXNativeTarget "ScorigamiUITests" */;
+			buildPhases = (
+				DA80A78C2900A33400982476 /* Sources */,
+				DA80A78D2900A33400982476 /* Frameworks */,
+				DA80A78E2900A33400982476 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA80A7922900A33400982476 /* PBXTargetDependency */,
+			);
+			name = ScorigamiUITests;
+			productName = ScorigamiUITests;
+			productReference = DA80A7902900A33400982476 /* ScorigamiUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DA80A76E2900A33100982476 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					DA80A7752900A33100982476 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+					DA80A7852900A33400982476 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = DA80A7752900A33100982476;
+					};
+					DA80A78F2900A33400982476 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = DA80A7752900A33100982476;
+					};
+				};
+			};
+			buildConfigurationList = DA80A7712900A33100982476 /* Build configuration list for PBXProject "Scorigami" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DA80A76D2900A33100982476;
+			packageReferences = (
+				DA80A7A32900A39F00982476 /* XCRemoteSwiftPackageReference "SwiftSoup" */,
+			);
+			productRefGroup = DA80A7772900A33100982476 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DA80A7752900A33100982476 /* Scorigami */,
+				DA80A7852900A33400982476 /* ScorigamiTests */,
+				DA80A78F2900A33400982476 /* ScorigamiUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DA80A7742900A33100982476 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA80A7812900A33300982476 /* Preview Assets.xcassets in Resources */,
+				DA80A77E2900A33300982476 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA80A7842900A33400982476 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA80A78E2900A33400982476 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DA80A7722900A33100982476 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA80A77C2900A33100982476 /* ContentView.swift in Sources */,
+				DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */,
+				DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */,
+				DA80A77A2900A33100982476 /* ScorigamiApp.swift in Sources */,
+				DA80A7A72900A73D00982476 /* Scorigami.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA80A7822900A33400982476 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA80A78B2900A33400982476 /* ScorigamiTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA80A78C2900A33400982476 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA80A7952900A33400982476 /* ScorigamiUITests.swift in Sources */,
+				DA80A7972900A33400982476 /* ScorigamiUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DA80A7882900A33400982476 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA80A7752900A33100982476 /* Scorigami */;
+			targetProxy = DA80A7872900A33400982476 /* PBXContainerItemProxy */;
+		};
+		DA80A7922900A33400982476 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DA80A7752900A33100982476 /* Scorigami */;
+			targetProxy = DA80A7912900A33400982476 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DA80A7982900A33400982476 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DA80A7992900A33400982476 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DA80A79B2900A33400982476 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Scorigami/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pomace.Scorigami;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		DA80A79C2900A33400982476 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Scorigami/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pomace.Scorigami;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		DA80A79E2900A33400982476 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pomace.ScorigamiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Scorigami.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Scorigami";
+			};
+			name = Debug;
+		};
+		DA80A79F2900A33400982476 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pomace.ScorigamiTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Scorigami.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Scorigami";
+			};
+			name = Release;
+		};
+		DA80A7A12900A33400982476 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pomace.ScorigamiUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Scorigami;
+			};
+			name = Debug;
+		};
+		DA80A7A22900A33400982476 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.pomace.ScorigamiUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Scorigami;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DA80A7712900A33100982476 /* Build configuration list for PBXProject "Scorigami" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA80A7982900A33400982476 /* Debug */,
+				DA80A7992900A33400982476 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA80A79A2900A33400982476 /* Build configuration list for PBXNativeTarget "Scorigami" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA80A79B2900A33400982476 /* Debug */,
+				DA80A79C2900A33400982476 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA80A79D2900A33400982476 /* Build configuration list for PBXNativeTarget "ScorigamiTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA80A79E2900A33400982476 /* Debug */,
+				DA80A79F2900A33400982476 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA80A7A02900A33400982476 /* Build configuration list for PBXNativeTarget "ScorigamiUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA80A7A12900A33400982476 /* Debug */,
+				DA80A7A22900A33400982476 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA80A7A32900A39F00982476 /* XCRemoteSwiftPackageReference "SwiftSoup" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/scinfu/SwiftSoup";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA80A7A42900A39F00982476 /* SwiftSoup */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA80A7A32900A39F00982476 /* XCRemoteSwiftPackageReference "SwiftSoup" */;
+			productName = SwiftSoup;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = DA80A76E2900A33100982476 /* Project object */;
+}

@@ -13,7 +13,7 @@ struct Scorigami {
     public struct Game  {
         var winningScore: Int = 0
         var losingScore: Int = 0
-        var counter: Int = 0
+        var occurrences: Int = 0
         var lastGame: String = ""
     }
     
@@ -122,7 +122,7 @@ struct Scorigami {
                     case let str where str.contains("counter"):
                         let regex = />(\d+)<\//
                         if let result = str.firstMatch(of: regex) {
-                            game.counter = Int(result.1) ?? 0
+                            game.occurrences = Int(result.1) ?? 0
                         }
                     case let str where str.contains("last_game"):
                         let regex = /htm\">(.*?)<\//

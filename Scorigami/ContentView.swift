@@ -9,22 +9,33 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel = ScorigamiViewModel()
-    
     var body: some View {
         
         VStack {
             Grid() {
-                ForEach(0 ..< 23) { game in
+                ForEach(viewModel.board, id: \.self) { row in
                     GridRow {
-                        Text(String(viewModel.gameCells.count))
-                        Button(action: {
-                            }) {
-                                Text(String(viewModel.gameCells[game].lastGame))
-                            }
+                        ForEach(row, id: \.self) { cell in
+                            let _ = print("square for " + cell.id + " " +
+                                          cell.color + " " + cell.occurrences)
+                        }
                     }
                 }
             }
         }
+//        VStack {
+//            Grid() {
+//                ForEach(0 ..< 23) { game in
+//                    GridRow {
+//                        Text(String(viewModel.gameCells.count))
+//                        Button(action: {
+//                            }) {
+//                                Text(String(viewModel.gameCells[game].lastGame))
+//                            }
+//                    }
+//                }
+//            }
+//        }
     }
 }
 

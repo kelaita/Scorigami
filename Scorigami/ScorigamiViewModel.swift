@@ -37,7 +37,7 @@ class ScorigamiViewModel: ObservableObject {
         for row in 0...getHighestWinningScore() {
             board.append([Cell]())
             for col in 0...getHighestWinningScore() {
-                board[row].append(searchGames(winningScore: row, losingScore: col))
+                board[row].append(searchGames(winningScore: col, losingScore: row))
             }
         }
     }
@@ -60,5 +60,9 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getHighestWinningScore() -> Int {
         model.games.last!.winningScore
+    }
+    
+    public func getGamesForLosingScore(losingScore: Int) -> Array<Cell> {
+        return board[losingScore]
     }
 }

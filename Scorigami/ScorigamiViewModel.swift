@@ -15,6 +15,8 @@ class ScorigamiViewModel: ObservableObject {
         public var id: String
         var color: Color
         var occurrences: Int
+        var lastGame: String
+        var label: String
     }
     
     public var board: [[Cell]] = []
@@ -49,12 +51,20 @@ class ScorigamiViewModel: ObservableObject {
         
         var cell = Cell(id: String(winningScore) + "-" + String(losingScore),
                         color: .black,
-                        occurrences: 0)
+                        occurrences: 0,
+                        lastGame: "",
+                        label: String(winningScore) + "-" + String(losingScore))
 
         if index != nil {
             cell.color = .red
             cell.occurrences = model.games[index!].occurrences
+            cell.lastGame = model.games[index!].lastGame
         }
+        
+        if winningScore < losingScore {
+            cell.label = ""
+        }
+        
         return cell
     }
     

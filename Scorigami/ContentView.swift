@@ -31,6 +31,8 @@ struct ContentView: View {
                                 Text(cell.label)
                                     .font(.system(size: 12)
                                         .weight(.bold))
+                                    .underline(color: cell.color)
+
                             }
                             .padding(0)
                             .frame(width: 40, height: 40)
@@ -43,7 +45,9 @@ struct ContentView: View {
                     }
                 }
             }.alert(isPresented: $showingAlert, content: {
-                Alert(title: Text("Game Score: " + score), message: Text("It happened " + String(occurrences) + " times: last was " + lastGame), dismissButton: .default(Text("OK")))
+                Alert(title: Text("Game Score: " + score),
+                      message: Text("It happened " + String(occurrences) + " times, most recently " + lastGame),
+                      dismissButton: .default(Text("OK")))
             })
 
         }.padding(.all, 2.0)

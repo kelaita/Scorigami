@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var score: String = ""
     @State var occurrences: Int = 0
     @State var lastGame: String = ""
+    @State var saturation: Double = 0.2
     @State var gamesUrl: String = "https://www.pro-football-reference.com/"
     
     var body: some View {
@@ -28,6 +29,7 @@ struct ContentView: View {
                                 self.occurrences = cell.occurrences
                                 self.lastGame = cell.lastGame
                                 self.gamesUrl = cell.gamesUrl
+                                self.saturation = cell.saturation
                                 self.showingAlert = true
                             }) {
                                 Text(cell.label)
@@ -39,6 +41,7 @@ struct ContentView: View {
                             .padding(0)
                             .frame(width: 40, height: 40)
                             .background(cell.color)
+                            .saturation(cell.saturation)
                             .foregroundColor(.white)
                             .border(cell.color, width: 0)
                             .cornerRadius(0)
@@ -53,6 +56,8 @@ struct ContentView: View {
                     Text("It happened " + String(occurrences) + " times, most recently " + lastGame)
                 })
         }.padding(.all, 2.0)
+         .preferredColorScheme(.dark)
+
     }
 }
 

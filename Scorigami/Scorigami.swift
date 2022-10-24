@@ -86,4 +86,8 @@ struct Scorigami {
         }
     }
     
+    public func getMaxOccorrences() -> Int {
+        games.max { $0.occurrences < $1.occurrences }!.occurrences
+    }
+    
 }

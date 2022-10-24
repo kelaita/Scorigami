@@ -11,13 +11,14 @@ class ScorigamiViewModel: ObservableObject {
     
     @Published var model: Scorigami
     
-    public struct Cell: Hashable {
+    public struct Cell: Hashable, Identifiable {
         public var id: String
         var color: Color
         var occurrences: Int
         var lastGame: String
         var gamesUrl: String
         var label: String
+        var saturation: Double
     }
     
     public var board: [[Cell]] = []
@@ -55,14 +56,15 @@ class ScorigamiViewModel: ObservableObject {
                         occurrences: 0,
                         lastGame: "",
                         gamesUrl: model.defaultURL,
-                        label: String(winningScore) + "-" + String(losingScore))
+                        label: String(winningScore) + "-" + String(losingScore),
+                        saturation: 0.0)
 
         if index != nil {
-            cell.color = .red
             cell.occurrences = model.games[index!].occurrences
+            cell.color = Color.red
             cell.lastGame = model.games[index!].lastGame
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
-            //print("After replacing: " + cell.gamesUrl)
+            cell.saturation = getSaturation(occurrences: cell.occurrences)
         }
         
         if winningScore < losingScore {
@@ -83,5 +85,18 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getDefaultUrl() -> String {
         model.defaultURL
+    }
+    
+    public func getSaturation(occurrences: Int) -> Double {
+        let floorSaturationPercent = 0.20
+        var maxOccurrences = model.getMaxOccorrences()
+        maxOccurrences = Int(Double(maxOccurrences) * 0.8)
+        let ratio = Double(occurrences) / Double(maxOccurrences)
+        let saturation = (1.0 - floorSaturationPercent) *
+            ratio + floorSaturationPercent
+        if saturation > 1.0 {
+            return 1.0
+        }
+        return saturation
     }
 }

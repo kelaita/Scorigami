@@ -16,6 +16,7 @@ class ScorigamiViewModel: ObservableObject {
         var color: Color
         var occurrences: Int
         var lastGame: String
+        var gamesUrl: String
         var label: String
     }
     
@@ -53,16 +54,20 @@ class ScorigamiViewModel: ObservableObject {
                         color: .black,
                         occurrences: 0,
                         lastGame: "",
+                        gamesUrl: model.defaultURL,
                         label: String(winningScore) + "-" + String(losingScore))
 
         if index != nil {
             cell.color = .red
             cell.occurrences = model.games[index!].occurrences
             cell.lastGame = model.games[index!].lastGame
+            cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
+            //print("After replacing: " + cell.gamesUrl)
         }
         
         if winningScore < losingScore {
             cell.label = ""
+            cell.gamesUrl = model.defaultURL
         }
         
         return cell
@@ -74,5 +79,9 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getGamesForLosingScore(losingScore: Int) -> Array<Cell> {
         return board[losingScore]
+    }
+    
+    public func getDefaultUrl() -> String {
+        model.defaultURL
     }
 }

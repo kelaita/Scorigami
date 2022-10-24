@@ -13,6 +13,7 @@ struct ContentView: View {
     @State var score: String = ""
     @State var occurrences: Int = 0
     @State var lastGame: String = ""
+    @State var gamesUrl: String = "https://www.pro-football-reference.com/"
     
     var body: some View {
         
@@ -26,13 +27,14 @@ struct ContentView: View {
                                 self.score = cell.label
                                 self.occurrences = cell.occurrences
                                 self.lastGame = cell.lastGame
+                                self.gamesUrl = cell.gamesUrl
                                 self.showingAlert = true
                             }) {
                                 Text(cell.label)
                                     .font(.system(size: 12)
                                         .weight(.bold))
                                     .underline(color: cell.color)
-
+                                
                             }
                             .padding(0)
                             .frame(width: 40, height: 40)
@@ -44,12 +46,12 @@ struct ContentView: View {
                         }
                     }
                 }
-            }.alert(isPresented: $showingAlert, content: {
-                Alert(title: Text("Game Score: " + score),
-                      message: Text("It happened " + String(occurrences) + " times, most recently " + lastGame),
-                      dismissButton: .default(Text("OK")))
-            })
-
+            }.alert("Game Score: " + score, isPresented: $showingAlert, actions: {
+                    Button("Done", role: .cancel, action: {})
+                    Link("View games", destination: URL(string: gamesUrl)!)
+                }, message: {
+                    Text("It happened " + String(occurrences) + " times, most recently " + lastGame)
+                })
         }.padding(.all, 2.0)
     }
 }

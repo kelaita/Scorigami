@@ -25,81 +25,25 @@ struct Scorigami {
         print("PUP: games: ", games.count)
     }
     
-    let particularScoreURL = "https://www.pro-football-reference.com/boxscores/game_scores_find.cgi?pts_win=20&pts_lose=18"
+    let particularScoreURL = "https://www.pro-football-reference.com/boxscores/game_scores_find.cgi?pts_win=WWWW&pts_lose=LLLL"
     let allGamesURL = "https://www.pro-football-reference.com/boxscores/game-scores.htm"
+    let defaultURL = "https://www.pro-football-reference.com"
+    
+    public func getParticularScoreURL(winningScore: Int,
+                                      losingScore: Int) -> String {
+        let str = particularScoreURL.replacingOccurrences(of: "WWWW", with: String(winningScore), options: .literal, range: nil)
+        return str.replacingOccurrences(of: "LLLL", with: String(losingScore), options: .literal, range: nil)
+    }
     
     public mutating func loadAllScores() {
-            // particularScore()
-            print("In model about to load all scores")
-            self.allScores()
-            print("In model DONE load all scores")
-    }
-    
-    public mutating func particularScore() {
-        let url = URL(string: particularScoreURL)!
-        let (data, _, _) = URLSession.shared.synchronousDataTask(with: url)
-        guard let data = data else { return }
-        parseParticularScore(html: String(data: data, encoding: .utf8)!)
-    }
-    
-    public mutating func allScores() {
+        print("In model about to load all scores")
         let url = URL(string: allGamesURL)!
         let (data, _, _) = URLSession.shared.synchronousDataTask(with: url)
         guard let data = data else { return }
         parseAllScores(html: String(data: data, encoding: .utf8)!)
+        print("In model DONE load all scores")
     }
     
-    func parseParticularScore(html: String) {
-        do {
-            let doc: Document = try SwiftSoup.parse(html)
-
-            let rows: Array = try doc.select("tbody tr").array()
-            for row in rows {
-                let lines = "\(row)".split(whereSeparator: \.isNewline)
-                for line in lines {
-                    switch line {
-                    case let str where str.contains("game_date"):
-                        let regex = />(\d\d\d\d-\d\d-\d\d)</
-                        if let result = str.firstMatch(of: regex) {
-                            print("PUP match: ", result.1)
-                        }
-                    case let str where str.contains("winner"):
-                        let regex = /htm\">(.*?)<\/a/
-                        if let result = str.firstMatch(of: regex) {
-                            print("PUP match: ", result.1)
-                        }
-                    case let str where str.contains("loser"):
-                        let regex = /htm\">(.*?)<\/a/
-                        if let result = str.firstMatch(of: regex) {
-                            print("PUP match: ", result.1)
-                        }
-                    case let str where str.contains("boxscore_word"):
-                        let regex = /href=\"(.*)\"/
-                        if let result = str.firstMatch(of: regex) {
-                            print("PUP match: ", result.1)
-                        }
-                    case let str where str.contains("pts_win"):
-                        let regex = /(\d+)<\//
-                        if let result = str.firstMatch(of: regex) {
-                            print("PUP match: ", result.1)
-                        }
-                    case let str where str.contains("pts_lose"):
-                        let regex = /(\d+)<\//
-                        if let result = str.firstMatch(of: regex) {
-                            print("PUP match: ", result.1)
-                        }
-                    default:
-                        break
-                    }
-                }
-            }
-        } catch Exception.Error(_, let message) {
-            print("Message: \(message)")
-        } catch {
-            print("error")
-        }
-    }
-
     mutating func parseAllScores(html: String) {
         do {
             let doc: Document = try SwiftSoup.parse(html)

@@ -66,7 +66,7 @@ struct ContentView: View {
                         Text(", most recently ") +
                         Text(lastGame)
                     } else {
-                        Text("SCORIGAMI!!").bold()
+                        Text("SCORIGAMI!").bold()
                     }
 
                 })

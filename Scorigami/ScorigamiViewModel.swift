@@ -67,7 +67,20 @@ class ScorigamiViewModel: ObservableObject {
             //cell.color = getColor(occurrences: cell.occurrences)
             cell.lastGame = model.games[index!].lastGame
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
-            cell.saturation = getSaturation(occurrences: cell.occurrences)
+            cell.saturation = getSaturation(
+                                min: 1,
+                                max: model.getMaxOccorrences(),
+                                val: cell.occurrences,
+                                skewLower: 0.1,
+                                skewUpper: 0.6)
+            /*
+            cell.saturation = getSaturation(
+                                min: 1920,
+                                max: 2022,
+                                val: getMostRecentYear(gameDesc: cell.lastGame),
+                                skewLower: 0.01,
+                                skewUpper: 0.8)
+             */
             if cell.occurrences == 1 {
                 cell.plural = ""
             }
@@ -88,12 +101,21 @@ class ScorigamiViewModel: ObservableObject {
         return board[losingScore]
     }
     
-    public func getSaturation(occurrences: Int) -> Double {
-        let floorSaturationPercent = 0.10
-        var maxOccurrences = model.getMaxOccorrences()
+    public func getMostRecentYear(gameDesc: String) -> Int {
+        let year = gameDesc.suffix(4)
+        return Int(year) ?? 1920
+    }
+    
+    public func getSaturation(min: Int,
+                              max: Int,
+                              val: Int,
+                              skewLower: Double,
+                              skewUpper: Double) -> Double {
+        let floorSaturationPercent = skewLower
         // the following improves the appearance by making highest intensity before the very top
-        maxOccurrences = Int(Double(maxOccurrences) * 0.6)
-        let ratio = Double(occurrences) / Double(maxOccurrences)
+        let newMax = Double(max - min) * skewUpper + Double(min)
+        let ratio = (Double(val) - Double(min)) /
+                    (newMax - Double(min))
         let saturation = (1.0 - floorSaturationPercent) *
             ratio + floorSaturationPercent
         if saturation > 1.0 {

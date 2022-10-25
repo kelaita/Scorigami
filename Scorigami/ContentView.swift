@@ -63,8 +63,8 @@ struct ContentView: View {
                         Text(String(occurrences)).bold() +
                         Text(" time") +
                         Text(plural) +
-                        Text(", ") +
-                        Text("most recently " + lastGame)
+                        Text(", most recently ") +
+                        Text(lastGame)
                     } else {
                         Text("SCORIGAMI").bold()
                     }

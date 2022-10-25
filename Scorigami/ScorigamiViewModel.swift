@@ -19,6 +19,7 @@ class ScorigamiViewModel: ObservableObject {
         var gamesUrl: String
         var label: String
         var saturation: Double
+        var plural: String
     }
     
     public var board: [[Cell]] = []
@@ -57,14 +58,19 @@ class ScorigamiViewModel: ObservableObject {
                         lastGame: "",
                         gamesUrl: model.defaultURL,
                         label: String(winningScore) + "-" + String(losingScore),
-                        saturation: 0.0)
+                        saturation: 0.0,
+                        plural: "s")
 
         if index != nil {
             cell.occurrences = model.games[index!].occurrences
             cell.color = Color.red
+            //cell.color = getColor(occurrences: cell.occurrences)
             cell.lastGame = model.games[index!].lastGame
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
             cell.saturation = getSaturation(occurrences: cell.occurrences)
+            if cell.occurrences == 1 {
+                cell.plural = ""
+            }
         }
         
         if winningScore < losingScore {
@@ -88,9 +94,9 @@ class ScorigamiViewModel: ObservableObject {
     }
     
     public func getSaturation(occurrences: Int) -> Double {
-        let floorSaturationPercent = 0.20
+        let floorSaturationPercent = 0.10
         var maxOccurrences = model.getMaxOccorrences()
-        maxOccurrences = Int(Double(maxOccurrences) * 0.8)
+        maxOccurrences = Int(Double(maxOccurrences) * 0.6)
         let ratio = Double(occurrences) / Double(maxOccurrences)
         let saturation = (1.0 - floorSaturationPercent) *
             ratio + floorSaturationPercent
@@ -98,5 +104,14 @@ class ScorigamiViewModel: ObservableObject {
             return 1.0
         }
         return saturation
+    }
+    
+    public func getColor(occurrences: Int) -> Color {
+        let maxOccurrences = model.getMaxOccorrences()
+        let whereOnGradient = Double(occurrences) / Double(maxOccurrences)
+        print("WhereOnGradient: \(whereOnGradient)")
+        let red = whereOnGradient
+        let blue = 1.0 - whereOnGradient
+        return Color(red: red, green: 0, blue: blue)
     }
 }

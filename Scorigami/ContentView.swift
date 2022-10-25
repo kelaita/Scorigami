@@ -14,7 +14,7 @@ struct ContentView: View {
     @State var occurrences: Int = 0
     @State var lastGame: String = ""
     @State var saturation: Double = 0.2
-    @State var gamesUrl: String = "https://www.pro-football-reference.com/"
+    @State var gamesUrl: String = ScorigamiViewModel.siteURL
     @State var plural: String = "s"
     
     var body: some View {

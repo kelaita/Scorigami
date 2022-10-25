@@ -24,6 +24,8 @@ class ScorigamiViewModel: ObservableObject {
     
     public var board: [[Cell]] = []
     
+    public static let siteURL = Scorigami.siteURL
+    
     init() {
         model = ScorigamiViewModel.createScorigami()
         model.games.sort { $0.winningScore < $1.winningScore }
@@ -56,7 +58,7 @@ class ScorigamiViewModel: ObservableObject {
                         color: .black,
                         occurrences: 0,
                         lastGame: "",
-                        gamesUrl: model.defaultURL,
+                        gamesUrl: ScorigamiViewModel.siteURL,
                         label: String(winningScore) + "-" + String(losingScore),
                         saturation: 0.0,
                         plural: "s")
@@ -75,7 +77,7 @@ class ScorigamiViewModel: ObservableObject {
         
         if winningScore < losingScore {
             cell.label = ""
-            cell.gamesUrl = model.defaultURL
+            //cell.gamesUrl = siteURL
         }
         
         return cell
@@ -89,9 +91,9 @@ class ScorigamiViewModel: ObservableObject {
         return board[losingScore]
     }
     
-    public func getDefaultUrl() -> String {
-        model.defaultURL
-    }
+//    public func getDefaultUrl() -> String {
+//        model.defaultURL
+//    }
     
     public func getSaturation(occurrences: Int) -> Double {
         let floorSaturationPercent = 0.10

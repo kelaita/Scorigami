@@ -36,12 +36,10 @@ struct Scorigami {
     }
     
     public mutating func loadAllScores() {
-        print("In model about to load all scores")
         let url = URL(string: allGamesURL)!
         let (data, _, _) = URLSession.shared.synchronousDataTask(with: url)
         guard let data = data else { return }
         parseAllScores(html: String(data: data, encoding: .utf8)!)
-        print("In model DONE load all scores")
     }
     
     mutating func parseAllScores(html: String) {

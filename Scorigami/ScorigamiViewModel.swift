@@ -96,6 +96,7 @@ class ScorigamiViewModel: ObservableObject {
     public func getSaturation(occurrences: Int) -> Double {
         let floorSaturationPercent = 0.10
         var maxOccurrences = model.getMaxOccorrences()
+        // the following improves the appearance by making highest intensity before the very top
         maxOccurrences = Int(Double(maxOccurrences) * 0.6)
         let ratio = Double(occurrences) / Double(maxOccurrences)
         let saturation = (1.0 - floorSaturationPercent) *

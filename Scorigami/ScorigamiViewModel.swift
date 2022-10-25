@@ -71,7 +71,6 @@ class ScorigamiViewModel: ObservableObject {
             if cell.occurrences == 1 {
                 cell.plural = ""
             }
-            // dfslkjsdflkjsdf
         }
         
         if winningScore < losingScore {

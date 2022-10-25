@@ -69,9 +69,9 @@ class ScorigamiViewModel: ObservableObject {
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
             cell.saturation = getSaturation(occurrences: cell.occurrences)
             if cell.occurrences == 1 {
-                
                 cell.plural = ""
             }
+            // dfslkjsdflkjsdf
         }
         
         if winningScore < losingScore {

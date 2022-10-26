@@ -10,7 +10,7 @@ import SwiftUI
 class ScorigamiViewModel: ObservableObject {
     
     @Published var model: Scorigami
-    
+        
     public struct Cell: Hashable, Identifiable {
         public var id: String
         var color: Color

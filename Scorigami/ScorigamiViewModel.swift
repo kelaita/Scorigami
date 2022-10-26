@@ -10,6 +10,8 @@ import SwiftUI
 class ScorigamiViewModel: ObservableObject {
     
     @Published var model: Scorigami
+    
+    var gradientVal = 0
         
     public struct Cell: Hashable, Identifiable {
         public var id: String
@@ -22,12 +24,12 @@ class ScorigamiViewModel: ObservableObject {
         var plural: String
     }
     
-    public var board: [[Cell]] = []
+    @Published public var board: [[Cell]] = []
         
     init() {
         model = ScorigamiViewModel.createScorigami()
         model.games.sort { $0.winningScore < $1.winningScore }
-        buildBoard()
+        buildBoard(gradientVal: gradientVal)
     }
     
     static func createScorigami() -> Scorigami {
@@ -38,16 +40,18 @@ class ScorigamiViewModel: ObservableObject {
         model.games
     }
     
-    func buildBoard() {
+    func buildBoard(gradientVal: Int) {
+        board = []
         for row in 0...getHighestWinningScore() {
             board.append([Cell]())
             for col in 0...getHighestWinningScore() {
-                board[row].append(searchGames(winningScore: col, losingScore: row))
+                board[row].append(searchGames(winningScore: col, losingScore: row, gradientVal: gradientVal))
             }
         }
+        self.objectWillChange.send()
     }
     
-    func searchGames(winningScore: Int, losingScore: Int) -> Cell {
+    func searchGames(winningScore: Int, losingScore: Int, gradientVal: Int) -> Cell {
         let index = model.games.firstIndex {
             $0.winningScore == winningScore &&
             $0.losingScore == losingScore }
@@ -67,20 +71,24 @@ class ScorigamiViewModel: ObservableObject {
             //cell.color = getColor(occurrences: cell.occurrences)
             cell.lastGame = model.games[index!].lastGame
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
-            cell.saturation = getSaturation(
-                                min: 1,
-                                max: model.getMaxOccorrences(),
-                                val: cell.occurrences,
-                                skewLower: 0.1,
-                                skewUpper: 0.6)
-            /*
-            cell.saturation = getSaturation(
-                                min: 1920,
-                                max: 2022,
-                                val: getMostRecentYear(gameDesc: cell.lastGame),
-                                skewLower: 0.01,
-                                skewUpper: 0.8)
-             */
+            if gradientVal == 0 {
+                cell.saturation = getSaturation(
+                    min: 1,
+                    max: model.getMaxOccorrences(),
+                    val: cell.occurrences,
+                    skewLower: 0.1,
+                    skewUpper: 0.6)
+            } else {
+                cell.saturation = getSaturation(
+                    min: 1920,
+                    max: 2022,
+                    val: getMostRecentYear(gameDesc: cell.lastGame),
+                    skewLower: 0.01,
+                    skewUpper: 0.8)
+            }
+            if (cell.id == "6-3") {
+                print("VM: cellSat for 6-3 is: \(cell.saturation)")
+            }
             if cell.occurrences == 1 {
                 cell.plural = ""
             }

@@ -9,6 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel = ScorigamiViewModel()
+    
+    @State var refreshView = 0
+    @State var updater: Bool = false
+    
     @State var showingAlert: Bool = false
     @State var score: String = ""
     @State var occurrences: Int = 0
@@ -16,7 +20,7 @@ struct ContentView: View {
     @State var saturation: Double = 0.2
     @State var gamesUrl: String = ""
     @State var plural: String = "s"
-        
+    
     var body: some View {
         ScrollViewReader { reader in
             ZStack {
@@ -34,6 +38,11 @@ struct ContentView: View {
                                         self.saturation = cell.saturation
                                         self.plural = cell.plural
                                         self.showingAlert = true
+                                        let _ = print("PUP: \(cell.label), cellSat: \(cell.saturation), sat: \(self.saturation)")
+                                        _ = updater
+                                        if self.score == "6-6" {
+                                            print("Updater: \(updater), self.sat = \(self.saturation)")
+                                        }
                                     }) {
                                         Text(cell.label)
                                             .font(.system(size: 12)
@@ -64,7 +73,7 @@ struct ContentView: View {
                             Text(" time") +
                             Text(plural) +
                             Text(", most recently ") +
-                            Text(lastGame)
+                            Text(String(saturation))
                         } else {
                             Text("SCORIGAMI!").bold()
                         }
@@ -76,40 +85,32 @@ struct ContentView: View {
                     .onAppear {
                         reader.scrollTo("root", anchor: .topLeading)
                     }
+            }
+            Grid {
+                GridRow {
+                    Button(action: {
+                        reader.scrollTo("root", anchor: .topLeading)
+                    }) {
+                        Text("Reset")
+                    }.background(.white)
+                        .frame(width: 85, height: 60)
+                        .cornerRadius(8)
+                        .padding(.horizontal)
+                    HStack {
+                        Text("Gradient")
+                        Picker("", selection: $refreshView) {
+                            Text("Frequency").tag(Int(0))
+                            Text("Recent Games").tag(Int(1))
+                        }.pickerStyle(.menu)
+                            .background(.white)
+                            .frame(width: 150, height: 40)
+                            .cornerRadius(8)
+                            .onChange(of: refreshView) { tag in
+                                viewModel.buildBoard(gradientVal: tag)
+                                updater.toggle()
+                            }
+                    }.frame(maxWidth: .infinity, alignment: .trailing)
                 }
-            FixedUI(reader: reader)
-        }
-            
-    }
-}
-
-struct FixedUI: View {
-    let reader: ScrollViewProxy
-    @State var gradientType: Int = 0
-    var body: some View {
-        Grid {
-            GridRow {
-                Button(action: {
-                    reader.scrollTo("root", anchor: .topLeading)
-                }) {
-                    Text("Reset")
-                }.background(.white)
-                 .frame(width: 85, height: 60)
-                 .cornerRadius(8)
-                 .padding(.horizontal)
-                HStack {
-                    Text("Gradient")
-                    Picker("", selection: $gradientType) {
-                        Text("Frequency").tag(Int(0))
-                        Text("Recent Games").tag(Int(1))
-                    }.pickerStyle(.menu)
-                     .background(.white)
-                     .frame(width: 130, height: 40)
-                     .cornerRadius(8)
-                     .onChange(of: gradientType) { tag in
-                         print("tag: \(tag)")
-                     }
-                }.frame(maxWidth: .infinity, alignment: .trailing)
             }
         }
     }

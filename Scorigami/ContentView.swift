@@ -38,11 +38,6 @@ struct ContentView: View {
                                         self.saturation = cell.saturation
                                         self.plural = cell.plural
                                         self.showingAlert = true
-                                        let _ = print("PUP: \(cell.label), cellSat: \(cell.saturation), sat: \(self.saturation)")
-                                        _ = updater
-                                        if self.score == "6-6" {
-                                            print("Updater: \(updater), self.sat = \(self.saturation)")
-                                        }
                                     }) {
                                         Text(cell.label)
                                             .font(.system(size: 12)
@@ -73,7 +68,7 @@ struct ContentView: View {
                             Text(" time") +
                             Text(plural) +
                             Text(", most recently ") +
-                            Text(String(saturation))
+                            Text(lastGame)
                         } else {
                             Text("SCORIGAMI!").bold()
                         }
@@ -99,15 +94,14 @@ struct ContentView: View {
                     HStack {
                         Text("Gradient")
                         Picker("", selection: $refreshView) {
-                            Text("Frequency").tag(Int(0))
-                            Text("Recent Games").tag(Int(1))
+                            Text("Frequency").tag(0)
+                            Text("Recent Games").tag(1)
                         }.pickerStyle(.menu)
                             .background(.white)
                             .frame(width: 150, height: 40)
                             .cornerRadius(8)
                             .onChange(of: refreshView) { tag in
                                 viewModel.buildBoard(gradientVal: tag)
-                                updater.toggle()
                             }
                     }.frame(maxWidth: .infinity, alignment: .trailing)
                 }

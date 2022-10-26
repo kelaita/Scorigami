@@ -11,7 +11,7 @@ class ScorigamiViewModel: ObservableObject {
     
     @Published var model: Scorigami
     
-    var gradientVal = 0
+    let gradientVal = 0
         
     public struct Cell: Hashable, Identifiable {
         public var id: String
@@ -48,7 +48,6 @@ class ScorigamiViewModel: ObservableObject {
                 board[row].append(searchGames(winningScore: col, losingScore: row, gradientVal: gradientVal))
             }
         }
-        self.objectWillChange.send()
     }
     
     func searchGames(winningScore: Int, losingScore: Int, gradientVal: Int) -> Cell {
@@ -85,9 +84,6 @@ class ScorigamiViewModel: ObservableObject {
                     val: getMostRecentYear(gameDesc: cell.lastGame),
                     skewLower: 0.01,
                     skewUpper: 0.8)
-            }
-            if (cell.id == "6-3") {
-                print("VM: cellSat for 6-3 is: \(cell.saturation)")
             }
             if cell.occurrences == 1 {
                 cell.plural = ""

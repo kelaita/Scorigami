@@ -28,6 +28,16 @@ public class GameData {
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
+
+    var body: some View {
+        InteractiveView(viewModel: viewModel, gameData: gameData).environmentObject(viewModel)
+    }
+}
+
+struct InteractiveView: View {
+    @ObservedObject var viewModel: ScorigamiViewModel
+    @State var gameData = GameData()
+
     @State var showingAlert: Bool = false
 
     var body: some View {
@@ -70,6 +80,7 @@ struct ContentView: View {
             OptionsUI(reader: reader).environmentObject(viewModel)
         }
     }
+
 }
 
 struct ScoreCell: View {

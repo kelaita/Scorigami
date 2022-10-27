@@ -82,8 +82,8 @@ class ScorigamiViewModel: ObservableObject {
                     min: 1920,
                     max: 2022,
                     val: getMostRecentYear(gameDesc: cell.lastGame),
-                    skewLower: 0.01,
-                    skewUpper: 0.8)
+                    skewLower: 0,
+                    skewUpper: 1.0)
             }
             if cell.occurrences == 1 {
                 cell.plural = ""

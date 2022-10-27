@@ -12,7 +12,8 @@ struct ScorigamiApp: App {
     let scorigami = ScorigamiViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: scorigami)
+            ContentView(viewModel: scorigami).environmentObject(scorigami)
         }
     }
 }
+

@@ -30,14 +30,19 @@ struct ContentView: View {
     @State var gameData = GameData()
     @State var zoomView = true
     @State var scrollToTopNotice: UUID?
+    @State var scrollToCell: String = "0-0"
 
     var body: some View {
         if (zoomView) {
             InteractiveView(viewModel: viewModel,
                             scrollToTopNotice: $scrollToTopNotice,
+                            scrollToCell: $scrollToCell,
                             gameData: gameData).environmentObject(viewModel)
         } else {
-            FullView(gameData: gameData).environmentObject(viewModel)
+            FullView(gameData: gameData,
+                     scrollToTopNotice: $scrollToTopNotice,
+                     scrollToCell: $scrollToCell,
+                     zoomView: $zoomView).environmentObject(viewModel)
         }
         OptionsUI(zoomView: $zoomView,
                   scrollToTopNotice: $scrollToTopNotice).environmentObject(viewModel)
@@ -46,6 +51,9 @@ struct ContentView: View {
 
 struct FullView: View {
     @State var gameData = GameData()
+    @Binding var scrollToTopNotice: UUID?
+    @Binding var scrollToCell: String
+    @Binding var zoomView: Bool
         
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
@@ -58,7 +66,7 @@ struct FullView: View {
             HStack {
                 Text("0").frame(maxWidth: .infinity, alignment: .leading)
                 Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
-                Text("74").frame(maxWidth: .infinity, alignment: .trailing)
+                Text("73").frame(maxWidth: .infinity, alignment: .trailing)
             }
             ForEach(0...51, id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
@@ -70,6 +78,8 @@ struct FullView: View {
                             .padding(0)
                             .onTapGesture {
                                 print("PUP: 11111 \(cell.id)")
+                                scrollToCell = cell.id
+                                zoomView = true
                             }
                     }
                 }.padding(0)
@@ -81,6 +91,7 @@ struct FullView: View {
 struct InteractiveView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @Binding var scrollToTopNotice: UUID?
+    @Binding var scrollToCell: String
     @State var gameData = GameData()
 
     @State var showingAlert: Bool = false
@@ -121,11 +132,11 @@ struct InteractiveView: View {
                     .onChange(of: scrollToTopNotice) { id in
                         guard id != nil else { return }
                         withAnimation {
-                            reader.scrollTo("root", anchor: .topLeading)
+                            reader.scrollTo(scrollToCell, anchor: .topLeading)
                         }
                     }
                     .onAppear {
-                        reader.scrollTo("root", anchor: .topLeading)
+                        reader.scrollTo(scrollToCell, anchor: .topLeading)
                     }
             }
         }
@@ -144,7 +155,7 @@ struct ScoreCell: View {
         let row = viewModel.getGamesForLosingScore(
             losingScore: losingScore)
         ForEach(row, id: \.self) { cell in
-            
+           
             Button(action: {
                 gameData.score = cell.label
                 gameData.occurrences = cell.occurrences
@@ -168,6 +179,7 @@ struct ScoreCell: View {
             .border(cell.color, width: 0)
             .cornerRadius(0)
             .buttonStyle(BorderlessButtonStyle())
+            .id(cell.label)
         }
         
     }

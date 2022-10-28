@@ -28,9 +28,49 @@ public class GameData {
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
+    @State var zoomView = true
 
     var body: some View {
-        InteractiveView(viewModel: viewModel, gameData: gameData).environmentObject(viewModel)
+        if (zoomView) {
+            InteractiveView(viewModel: viewModel, gameData: gameData).environmentObject(viewModel)
+        } else {
+            FullView(gameData: gameData).environmentObject(viewModel)
+        }
+        OptionsUI(zoomView: $zoomView).environmentObject(viewModel)
+    }
+}
+
+struct FullView: View {
+    @State var gameData = GameData()
+        
+    @EnvironmentObject var viewModel: ScorigamiViewModel
+    
+    let layout = [
+        GridItem(.adaptive(minimum:5), spacing: 0)
+    ]
+
+    var body: some View {
+        VStack(spacing: 0) {
+            HStack {
+                Text("0").frame(maxWidth: .infinity, alignment: .leading)
+                Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
+                Text("74").frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            ForEach(0...51, id: \.self) { losingScore in
+                let row = viewModel.getGamesForLosingScore(
+                    losingScore: losingScore)
+                LazyVGrid(columns: layout, spacing: 0) {
+                    ForEach(row, id: \.self) { cell in
+                        cell.color.frame(width: 6, height: 6)
+                            .saturation(cell.saturation)
+                            .padding(0)
+                            .onTapGesture {
+                                print("PUP: 11111 \(cell.id)")
+                            }
+                    }
+                }.padding(0)
+            }
+        }.preferredColorScheme(.dark)
     }
 }
 
@@ -77,7 +117,6 @@ struct InteractiveView: View {
                         reader.scrollTo("root", anchor: .topLeading)
                     }
             }
-            OptionsUI(reader: reader).environmentObject(viewModel)
         }
     }
 
@@ -124,7 +163,9 @@ struct ScoreCell: View {
 }
 
 struct OptionsUI: View {
-    let reader: ScrollViewProxy
+    //let reader: ScrollViewProxy
+    @Binding var zoomView: Bool
+
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     @State var refreshView = 0
@@ -132,24 +173,42 @@ struct OptionsUI: View {
     var body: some View {
         HStack {
             Button(action: {
-                reader.scrollTo("root", anchor: .topLeading)
+                //reader.scrollTo("root", anchor: .topLeading)
             }) {
                 Text("Reset")
             }.background(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                //.frame(maxWidth: .infinity, alignment: .leading)
                 .padding()
-            Text("Gradient:")
-                .frame(maxWidth: .infinity, alignment: .trailing)
-            Picker("", selection: $refreshView) {
-                Text("Frequency").tag(0)
-                Text("Recency").tag(1)
-            }.pickerStyle(.menu)
-                .background(.white)
-                .padding(.trailing, 8)
-                .frame(width: 150, height: 80)
-                .onChange(of: refreshView) { tag in
-                    viewModel.buildBoard(gradientVal: tag)
-                }
+            VStack {
+                HStack {
+                    Text("Gradient:")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    Picker("", selection: $refreshView) {
+                        Text("Frequency").tag(0)
+                        Text("Recency").tag(1)
+                    }.pickerStyle(.menu)
+                        .background(.white)
+                        .padding(.trailing, 8)
+                        .frame(width: 150, height: 80)
+                        .onChange(of: refreshView) { tag in
+                            viewModel.buildBoard(gradientVal: tag)
+                        }
+                }.frame(maxWidth: .infinity, alignment: .leading)
+                HStack {
+                    Text("View:")
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    Picker("", selection: $zoomView) {
+                        Text("Fit on Screen").tag(false)
+                        Text("Scrollable").tag(true)
+                    }.pickerStyle(.menu)
+                        .background(.white)
+                        .padding(.trailing, 8)
+                        .frame(width: 150, height: 80)
+                        .onChange(of: zoomView) { tag in
+                            let _ = print("PUP view: \(tag)")
+                        }
+                }.frame(maxWidth: .infinity, alignment: .leading)
+            }.frame(maxWidth: .infinity, alignment: .leading)
         }.frame(maxWidth: .infinity, alignment: .trailing)
     }
 }

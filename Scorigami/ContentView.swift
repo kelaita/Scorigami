@@ -32,16 +32,19 @@ struct ContentView: View {
     @State var scrollToCell: String = "0-0"
 
     var body: some View {
-        if (zoomView) {
-            InteractiveView(viewModel: viewModel,
-                            scrollToCell: $scrollToCell,
-                            gameData: gameData).environmentObject(viewModel)
-        } else {
-            FullView(gameData: gameData,
-                     scrollToCell: $scrollToCell,
-                     zoomView: $zoomView).environmentObject(viewModel)
+        VStack {
+            if (zoomView) {
+                InteractiveView(viewModel: viewModel,
+                                scrollToCell: $scrollToCell,
+                                gameData: gameData).environmentObject(viewModel)
+            } else {
+                FullView(gameData: gameData,
+                         scrollToCell: $scrollToCell,
+                         zoomView: $zoomView).environmentObject(viewModel)
+            }
+            Spacer()
+            OptionsUI(zoomView: $zoomView).environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
         }
-        OptionsUI(zoomView: $zoomView).environmentObject(viewModel)
     }
 }
 
@@ -86,49 +89,46 @@ struct InteractiveView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @Binding var scrollToCell: String
     @State var gameData = GameData()
-
+    
     @State var showingAlert: Bool = false
-
+    
     var body: some View {
         ScrollViewReader { reader in
-            ZStack {
-                ScrollView([.horizontal, .vertical]) {
-                    VStack {
-                        ForEach(0...51, id: \.self) { losingScore in
-                            LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
-                                ScoreCell(losingScore: losingScore,
-                                          showingAlert: $showingAlert,
-                                          gameData: gameData).environmentObject(viewModel)
-                            }
+            ScrollView([.horizontal, .vertical]) {
+                VStack {
+                    ForEach(0...51, id: \.self) { losingScore in
+                        LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
+                            ScoreCell(losingScore: losingScore,
+                                      showingAlert: $showingAlert,
+                                      gameData: gameData).environmentObject(viewModel)
                         }
-                    }.alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
-                        if gameData.occurrences > 0 {
-                            Button("Done", role: .cancel, action: {})
-                            Link("View games", destination: URL(string: gameData.gamesUrl)!)
-                        }
-                    }, message: {
-                        if gameData.occurrences > 0 {
-                            Text("It happened ") +
-                            Text(String(gameData.occurrences)).bold() +
-                            Text(" time") +
-                            Text(gameData.plural) +
-                            Text(", most recently ") +
-                            Text(gameData.lastGame)
-                        } else {
-                            Text("SCORIGAMI!").bold()
-                        }
-                        
-                    })
-                    .id("root")
-                }.padding(.all, 2.0)
-                    .preferredColorScheme(.dark)
-                    .onAppear {
-                        reader.scrollTo(scrollToCell, anchor: .center)
                     }
-            }
+                }.alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
+                    if gameData.occurrences > 0 {
+                        Button("Done", role: .cancel, action: {})
+                        Link("View games", destination: URL(string: gameData.gamesUrl)!)
+                    }
+                }, message: {
+                    if gameData.occurrences > 0 {
+                        Text("It happened ") +
+                        Text(String(gameData.occurrences)).bold() +
+                        Text(" time") +
+                        Text(gameData.plural) +
+                        Text(", most recently ") +
+                        Text(gameData.lastGame)
+                    } else {
+                        Text("SCORIGAMI!").bold()
+                    }
+                    
+                })
+                .id("root")
+            }.padding(.all, 2.0)
+                .preferredColorScheme(.dark)
+                .onAppear {
+                    reader.scrollTo(scrollToCell, anchor: .center)
+                }
         }
     }
-
 }
 
 struct ScoreCell: View {
@@ -180,31 +180,37 @@ struct OptionsUI: View {
     @State var refreshView = 0
     
     var body: some View {
-        HStack {
+        VStack {
             if (zoomView) {
-                Button(action: {
-                    zoomView = false
-                }) {
-                    Text("Reset")
-                }.background(.white).padding()
+                Text("Tap score for info. Drag for more scores")
+            } else {
+                Text("Tap a region to view scores")
             }
-            VStack {
-                HStack {
-                    Text("Gradient:")
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                    Picker("", selection: $refreshView) {
-                        Text("Frequency").tag(0)
-                        Text("Recency").tag(1)
-                    }.pickerStyle(.menu)
-                        .background(.white)
-                        .padding(.trailing, 8)
-                        .frame(width: 150, height: 80)
-                        .onChange(of: refreshView) { tag in
-                            viewModel.buildBoard(gradientVal: tag)
-                        }
+            HStack {
+                if (zoomView) {
+                    Button(action: {
+                        zoomView = false
+                    }) {
+                        Text("Return")
+                    }.background(.white).padding()
+                }
+                VStack {
+                    HStack {
+                        Text("Gradient:")
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        Picker("", selection: $refreshView) {
+                            Text("Frequency").tag(0)
+                            Text("Recency").tag(1)
+                        }.pickerStyle(.segmented)
+                            .padding(.trailing, 8)
+                            .frame(width: 200, height: 80)
+                            .onChange(of: refreshView) { tag in
+                                viewModel.buildBoard(gradientVal: tag)
+                            }
+                    }.frame(maxWidth: .infinity, alignment: .leading)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-            }.frame(maxWidth: .infinity, alignment: .leading)
-        }.frame(maxWidth: .infinity, alignment: .trailing)
+            }.frame(maxWidth: .infinity, alignment: .trailing)
+        }
     }
 }
 

@@ -29,29 +29,24 @@ struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
     @State var zoomView = false
-    @State var scrollToTopNotice: UUID?
     @State var scrollToCell: String = "0-0"
 
     var body: some View {
         if (zoomView) {
             InteractiveView(viewModel: viewModel,
-                            scrollToTopNotice: $scrollToTopNotice,
                             scrollToCell: $scrollToCell,
                             gameData: gameData).environmentObject(viewModel)
         } else {
             FullView(gameData: gameData,
-                     scrollToTopNotice: $scrollToTopNotice,
                      scrollToCell: $scrollToCell,
                      zoomView: $zoomView).environmentObject(viewModel)
         }
-        OptionsUI(zoomView: $zoomView,
-                  scrollToTopNotice: $scrollToTopNotice).environmentObject(viewModel)
+        OptionsUI(zoomView: $zoomView).environmentObject(viewModel)
     }
 }
 
 struct FullView: View {
     @State var gameData = GameData()
-    @Binding var scrollToTopNotice: UUID?
     @Binding var scrollToCell: String
     @Binding var zoomView: Bool
         
@@ -89,7 +84,6 @@ struct FullView: View {
 
 struct InteractiveView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
-    @Binding var scrollToTopNotice: UUID?
     @Binding var scrollToCell: String
     @State var gameData = GameData()
 
@@ -128,13 +122,6 @@ struct InteractiveView: View {
                     .id("root")
                 }.padding(.all, 2.0)
                     .preferredColorScheme(.dark)
-                /*
-                    .onChange(of: scrollToTopNotice) { id in
-                        guard id != nil else { return }
-                        withAnimation {
-                            reader.scrollTo(scrollToCell, anchor: .topLeading)
-                        }
-                    }*/
                     .onAppear {
                         reader.scrollTo(scrollToCell, anchor: .center)
                     }
@@ -186,9 +173,7 @@ struct ScoreCell: View {
 }
 
 struct OptionsUI: View {
-    //let reader: ScrollViewProxy
     @Binding var zoomView: Bool
-    @Binding var scrollToTopNotice: UUID?
 
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
@@ -198,12 +183,10 @@ struct OptionsUI: View {
         HStack {
             if (zoomView) {
                 Button(action: {
-                    scrollToTopNotice = UUID()
+                    zoomView = false
                 }) {
                     Text("Reset")
-                }.background(.white)
-                //.frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
+                }.background(.white).padding()
             }
             VStack {
                 HStack {
@@ -219,17 +202,6 @@ struct OptionsUI: View {
                         .onChange(of: refreshView) { tag in
                             viewModel.buildBoard(gradientVal: tag)
                         }
-                }.frame(maxWidth: .infinity, alignment: .leading)
-                HStack {
-                    Text("View:")
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                    Picker("", selection: $zoomView) {
-                        Text("Fit on Screen").tag(false)
-                        Text("Scrollable").tag(true)
-                    }.pickerStyle(.menu)
-                        .background(.white)
-                        .padding(.trailing, 8)
-                        .frame(width: 150, height: 80)
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.frame(maxWidth: .infinity, alignment: .leading)
         }.frame(maxWidth: .infinity, alignment: .trailing)

@@ -12,6 +12,7 @@ class ScorigamiViewModel: ObservableObject {
     @Published var model: Scorigami
     
     let gradientVal = 0
+    var uniqueId = 0
         
     public struct Cell: Hashable, Identifiable {
         public var id: String
@@ -48,6 +49,7 @@ class ScorigamiViewModel: ObservableObject {
                 board[row].append(searchGames(winningScore: col, losingScore: row, gradientVal: gradientVal))
             }
         }
+        uniqueId += 1
     }
     
     func searchGames(winningScore: Int, losingScore: Int, gradientVal: Int) -> Cell {
@@ -55,7 +57,7 @@ class ScorigamiViewModel: ObservableObject {
             $0.winningScore == winningScore &&
             $0.losingScore == losingScore }
         
-        var cell = Cell(id: String(winningScore) + "-" + String(losingScore),
+        var cell = Cell(id: String(uniqueId) + ":" + String(winningScore) + "-" + String(losingScore),
                         color: .black,
                         occurrences: 0,
                         lastGame: "",
@@ -136,4 +138,17 @@ class ScorigamiViewModel: ObservableObject {
         let blue = 1.0 - whereOnGradient
         return Color(red: red, green: 0, blue: blue)
     }
+    
+    public func fixScrollCell(cell: String) -> String {
+        let id_scores = cell.components(separatedBy: ":")
+        let id = id_scores[0]
+        let scores = id_scores[1].components(separatedBy: "-")
+        if Int(scores[0])! < Int(scores[1])! {
+            return id + ":" + scores[1] + "-" + scores[1]
+        }
+        else {
+            return id_scores[1]
+        }
+    }
+
 }

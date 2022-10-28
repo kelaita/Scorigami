@@ -28,7 +28,7 @@ public class GameData {
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
-    @State var zoomView = true
+    @State var zoomView = false
     @State var scrollToTopNotice: UUID?
     @State var scrollToCell: String = "0-0"
 
@@ -77,7 +77,6 @@ struct FullView: View {
                             .saturation(cell.saturation)
                             .padding(0)
                             .onTapGesture {
-                                print("PUP: 11111 \(cell.id)")
                                 scrollToCell = cell.id
                                 zoomView = true
                             }
@@ -129,14 +128,15 @@ struct InteractiveView: View {
                     .id("root")
                 }.padding(.all, 2.0)
                     .preferredColorScheme(.dark)
+                /*
                     .onChange(of: scrollToTopNotice) { id in
                         guard id != nil else { return }
                         withAnimation {
                             reader.scrollTo(scrollToCell, anchor: .topLeading)
                         }
-                    }
+                    }*/
                     .onAppear {
-                        reader.scrollTo(scrollToCell, anchor: .topLeading)
+                        reader.scrollTo(scrollToCell, anchor: .center)
                     }
             }
         }
@@ -148,7 +148,7 @@ struct ScoreCell: View {
     let losingScore: Int
     @Binding var showingAlert: Bool
     let gameData: GameData
-    
+        
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     var body: some View {
@@ -179,7 +179,7 @@ struct ScoreCell: View {
             .border(cell.color, width: 0)
             .cornerRadius(0)
             .buttonStyle(BorderlessButtonStyle())
-            .id(cell.label)
+            .id(cell.id)
         }
         
     }

@@ -29,14 +29,18 @@ struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
     @State var zoomView = true
+    @State var scrollToTopNotice: UUID?
 
     var body: some View {
         if (zoomView) {
-            InteractiveView(viewModel: viewModel, gameData: gameData).environmentObject(viewModel)
+            InteractiveView(viewModel: viewModel,
+                            scrollToTopNotice: $scrollToTopNotice,
+                            gameData: gameData).environmentObject(viewModel)
         } else {
             FullView(gameData: gameData).environmentObject(viewModel)
         }
-        OptionsUI(zoomView: $zoomView).environmentObject(viewModel)
+        OptionsUI(zoomView: $zoomView,
+                  scrollToTopNotice: $scrollToTopNotice).environmentObject(viewModel)
     }
 }
 
@@ -76,6 +80,7 @@ struct FullView: View {
 
 struct InteractiveView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
+    @Binding var scrollToTopNotice: UUID?
     @State var gameData = GameData()
 
     @State var showingAlert: Bool = false
@@ -113,6 +118,12 @@ struct InteractiveView: View {
                     .id("root")
                 }.padding(.all, 2.0)
                     .preferredColorScheme(.dark)
+                    .onChange(of: scrollToTopNotice) { id in
+                        guard id != nil else { return }
+                        withAnimation {
+                            reader.scrollTo("root", anchor: .topLeading)
+                        }
+                    }
                     .onAppear {
                         reader.scrollTo("root", anchor: .topLeading)
                     }
@@ -165,6 +176,7 @@ struct ScoreCell: View {
 struct OptionsUI: View {
     //let reader: ScrollViewProxy
     @Binding var zoomView: Bool
+    @Binding var scrollToTopNotice: UUID?
 
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
@@ -172,13 +184,15 @@ struct OptionsUI: View {
     
     var body: some View {
         HStack {
-            Button(action: {
-                //reader.scrollTo("root", anchor: .topLeading)
-            }) {
-                Text("Reset")
-            }.background(.white)
+            if (zoomView) {
+                Button(action: {
+                    scrollToTopNotice = UUID()
+                }) {
+                    Text("Reset")
+                }.background(.white)
                 //.frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
+                    .padding()
+            }
             VStack {
                 HStack {
                     Text("Gradient:")
@@ -204,9 +218,6 @@ struct OptionsUI: View {
                         .background(.white)
                         .padding(.trailing, 8)
                         .frame(width: 150, height: 80)
-                        .onChange(of: zoomView) { tag in
-                            let _ = print("PUP view: \(tag)")
-                        }
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.frame(maxWidth: .infinity, alignment: .leading)
         }.frame(maxWidth: .infinity, alignment: .trailing)

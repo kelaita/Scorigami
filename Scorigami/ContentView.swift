@@ -188,11 +188,12 @@ struct OptionsUI: View {
             }
             HStack {
                 if (zoomView) {
+                    Spacer()
                     Button(action: {
                         zoomView = false
                     }) {
                         Text("Return")
-                    }.background(.white).padding()
+                    }.padding(3).background(.white).cornerRadius(6.0).bold()
                 }
                 VStack {
                     HStack {
@@ -209,7 +210,7 @@ struct OptionsUI: View {
                             }
                     }.frame(maxWidth: .infinity, alignment: .leading)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-            }.frame(maxWidth: .infinity, alignment: .trailing)
+            }//.frame(maxWidth: .infinity, alignment: .trailing)
         }
         .background(Color.red).saturation(0.2)
     }

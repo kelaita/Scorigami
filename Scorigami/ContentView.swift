@@ -182,9 +182,9 @@ struct OptionsUI: View {
     var body: some View {
         VStack {
             if (zoomView) {
-                Text("Tap score for info. Drag for more scores")
+                Text("Tap score for info. Drag for more scores").bold()
             } else {
-                Text("Tap a region to view scores")
+                Text("Tap a region to view scores").bold()
             }
             HStack {
                 if (zoomView) {
@@ -196,7 +196,7 @@ struct OptionsUI: View {
                 }
                 VStack {
                     HStack {
-                        Text("Gradient:")
+                        Text("Gradient:").bold()
                             .frame(maxWidth: .infinity, alignment: .trailing)
                         Picker("", selection: $refreshView) {
                             Text("Frequency").tag(0)
@@ -211,6 +211,7 @@ struct OptionsUI: View {
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.frame(maxWidth: .infinity, alignment: .trailing)
         }
+        .background(Color.red).saturation(0.5)
     }
 }
 

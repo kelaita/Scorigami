@@ -22,7 +22,6 @@ struct Scorigami {
     init() {
         games = Array<Game>()
         loadAllScores()
-        print("PUP: games: ", games.count)
     }
     
     let particularScoreURL = "https://www.pro-football-reference.com/boxscores/game_scores_find.cgi?pts_win=WWWW&pts_lose=LLLL"

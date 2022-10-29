@@ -94,7 +94,7 @@ struct InteractiveView: View {
     
     var body: some View {
         ScrollViewReader { reader in
-            ScrollView([.horizontal, .vertical]) {
+            ScrollView([.horizontal, .vertical], showsIndicators: false) {
                 VStack {
                     ForEach(0...51, id: \.self) { losingScore in
                         LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
@@ -211,7 +211,7 @@ struct OptionsUI: View {
                 }.frame(maxWidth: .infinity, alignment: .leading)
             }.frame(maxWidth: .infinity, alignment: .trailing)
         }
-        .background(Color.red).saturation(0.5)
+        .background(Color.red).saturation(0.2)
     }
 }
 

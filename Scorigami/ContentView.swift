@@ -69,7 +69,7 @@ struct FullView: View {
                 Text("Winning Score").frame(maxWidth: .infinity, alignment: .center).bold()
                 Text("73").frame(maxWidth: .infinity, alignment: .trailing).bold()
             }
-            Spacer().frame(width:0, height: 30)
+            Spacer().frame(width:0, height: 15)
             ForEach(0...51, id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
                     losingScore: losingScore)
@@ -81,6 +81,7 @@ struct FullView: View {
                             .saturation(cell.saturation)
                             .padding(0)
                             .onTapGesture {
+                                let _ = print("Clicked score: \(cell.id)")
                                 scrollToCell = cell.id
                                 zoomView = true
                             }
@@ -184,14 +185,17 @@ struct OptionsUI: View {
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     @State var refreshView = 0
+    @State var gradientType = 0
     
     var body: some View {
-        VStack {
+        VStack(spacing: 4) {
+            Spacer().frame(height: 20)
             if (zoomView) {
                 Text("Tap score for info. Drag for more scores").bold()
             } else {
                 Text("Tap a region to view scores").bold()
             }
+            Spacer().frame(height: 80)
             HStack {
                 if (zoomView) {
                     Spacer()
@@ -210,15 +214,39 @@ struct OptionsUI: View {
                             Text("Recency").tag(1)
                         }.pickerStyle(.segmented)
                             .padding(.trailing, 8)
-                            .frame(width: 200, height: 80)
+                            .frame(width: 200, height: 30)
                             .onChange(of: refreshView) { tag in
-                                viewModel.buildBoard(gradientVal: tag)
+                                gradientType = tag
+                                viewModel.buildBoard(gradientType: tag)
                             }
                     }.frame(maxWidth: .infinity, alignment: .leading)
                 }.frame(maxWidth: .infinity, alignment: .leading)
-            }//.frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            GradientLegend(minMaxes: viewModel.getMinMaxes(gradientType: gradientType))
+                .frame(alignment: .trailing)
         }
-        .background(Color.red).saturation(0.2)
+        .background(Color(red: 0.0, green: 0.0, blue: 0.4))
+    }
+}
+
+struct GradientLegend: View {
+    let minMaxes: Array<String>
+    
+    var body: some View {
+        HStack (spacing: 2) {
+            Spacer().frame(maxWidth: .infinity, alignment: .leading)
+            Text(minMaxes[0]).font(.system(size: 12))
+                .frame(width: 125, alignment: .trailing)
+                .lineLimit(1)
+            Rectangle().frame(width: 200, height: 12)
+                .foregroundColor(.clear)
+                .background(LinearGradient(colors: [.black, .red], startPoint: .leading, endPoint: .trailing))
+                .border(.white)
+            Text(minMaxes[1]).font(.system(size: 12))
+                .lineLimit(1)
+                .frame(width: 40, alignment: .leading)
+            Spacer().frame(width: 8, alignment: .leading)
+        }
     }
 }
 

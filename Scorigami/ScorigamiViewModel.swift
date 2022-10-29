@@ -11,7 +11,7 @@ class ScorigamiViewModel: ObservableObject {
     
     @Published var model: Scorigami
     
-    let gradientVal = 0
+    let gradientType = 0
     var uniqueId = 0
         
     public struct Cell: Hashable, Identifiable {
@@ -30,7 +30,7 @@ class ScorigamiViewModel: ObservableObject {
     init() {
         model = ScorigamiViewModel.createScorigami()
         model.games.sort { $0.winningScore < $1.winningScore }
-        buildBoard(gradientVal: gradientVal)
+        buildBoard(gradientType: gradientType)
     }
     
     static func createScorigami() -> Scorigami {
@@ -41,12 +41,12 @@ class ScorigamiViewModel: ObservableObject {
         model.games
     }
     
-    func buildBoard(gradientVal: Int) {
+    func buildBoard(gradientType: Int) {
         board = []
         for row in 0...getHighestWinningScore() {
             board.append([Cell]())
             for col in 0...getHighestWinningScore() {
-                board[row].append(searchGames(winningScore: col, losingScore: row, gradientVal: gradientVal))
+                board[row].append(searchGames(winningScore: col, losingScore: row, gradientVal: gradientType))
             }
         }
         uniqueId += 1
@@ -148,6 +148,15 @@ class ScorigamiViewModel: ObservableObject {
         }
         else {
             return id_scores[1]
+        }
+    }
+    
+    public func getMinMaxes(gradientType: Int) -> Array<String> {
+        if (gradientType == 0) {
+            return ["Occurrences: 1", "277"]
+        }
+        else {
+            return ["Most Recent: 1922", "2022"]
         }
     }
 

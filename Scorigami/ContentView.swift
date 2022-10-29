@@ -25,6 +25,9 @@ public class GameData {
     }
 }
 
+private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
+private var isPortrait : Bool { UIDevice.current.orientation.isPortrait }
+
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
@@ -62,16 +65,19 @@ struct FullView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("0").frame(maxWidth: .infinity, alignment: .leading)
-                Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
-                Text("73").frame(maxWidth: .infinity, alignment: .trailing)
+                Text("0").frame(maxWidth: .infinity, alignment: .leading).bold()
+                Text("Winning Score").frame(maxWidth: .infinity, alignment: .center).bold()
+                Text("73").frame(maxWidth: .infinity, alignment: .trailing).bold()
             }
+            Spacer().frame(width:0, height: 30)
             ForEach(0...51, id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
                     losingScore: losingScore)
-                LazyVGrid(columns: layout, spacing: 0) {
+                LazyHGrid(rows: layout, spacing: 0) {
                     ForEach(row, id: \.self) { cell in
-                        cell.color.frame(width: 6, height: 6)
+                        cell.color
+                            .frame(width: (idiom == .pad) ? 15 : 5,
+                                   height:(idiom == .pad) ? 15 : 5)
                             .saturation(cell.saturation)
                             .padding(0)
                             .onTapGesture {
@@ -79,7 +85,7 @@ struct FullView: View {
                                 zoomView = true
                             }
                     }
-                }.padding(0)
+                }.padding(0).frame(maxWidth: .infinity)
             }
         }.preferredColorScheme(.dark)
     }

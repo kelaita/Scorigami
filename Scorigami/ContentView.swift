@@ -117,14 +117,15 @@ struct InteractiveView: View {
                     }
                 }, message: {
                     if gameData.occurrences > 0 {
-                        Text("It happened ") +
-                        Text(String(gameData.occurrences)).bold() +
+                        Text("\nA game has ended with this score\n") +
+                        Text(String(gameData.occurrences)) +
                         Text(" time") +
                         Text(gameData.plural) +
-                        Text(", most recently ") +
+                        Text(".\n\nMost recently, this happened when the\n") +
                         Text(gameData.lastGame)
                     } else {
-                        Text("SCORIGAMI!").bold()
+                        Text("\nSCORIGAMI!\n\n") +
+                        Text("No game has ever ended\nwith this score...yet!")
                     }
                     
                 })

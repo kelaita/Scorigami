@@ -76,9 +76,9 @@ struct Scorigami {
                     // let's change the description to clearly denote winner
                     //
                     if game.occurrences > 0 {
-                        var desc = " beat"
+                        var desc = " beat the"
                         if game.winningScore == game.losingScore {
-                            desc = " tied"
+                            desc = " tied the"
                         }
                         game.lastGame = game.lastGame.replacingOccurrences(of: " vs.", with: desc, options: .literal, range: nil)
                     }

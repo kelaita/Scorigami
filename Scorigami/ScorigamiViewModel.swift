@@ -156,7 +156,7 @@ class ScorigamiViewModel: ObservableObject {
             return ["Occurrences: 1", "277"]
         }
         else {
-            return ["Most Recent: 1922", "2022"]
+            return ["Most Recent: 1920", String(Calendar.current.component(.year, from: Date()))]
         }
     }
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA0FB3B1290EE09E00014FCE /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0FB3B0290EE09E00014FCE /* AboutView.swift */; };
 		DA80A77A2900A33100982476 /* ScorigamiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7792900A33100982476 /* ScorigamiApp.swift */; };
 		DA80A77C2900A33100982476 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A77B2900A33100982476 /* ContentView.swift */; };
 		DA80A77E2900A33300982476 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA80A77D2900A33300982476 /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DA0FB3B0290EE09E00014FCE /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		DA80A7762900A33100982476 /* Scorigami.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scorigami.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA80A7792900A33100982476 /* ScorigamiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiApp.swift; sourceTree = "<group>"; };
 		DA80A77B2900A33100982476 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			children = (
 				DA80A7AA2903762D00982476 /* URLSession+sync.swift */,
 				DA80A7792900A33100982476 /* ScorigamiApp.swift */,
+				DA0FB3B0290EE09E00014FCE /* AboutView.swift */,
 				DA80A77B2900A33100982476 /* ContentView.swift */,
 				DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */,
 				DA80A7A62900A73D00982476 /* Scorigami.swift */,
@@ -278,6 +281,7 @@
 				DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */,
 				DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */,
 				DA80A77A2900A33100982476 /* ScorigamiApp.swift in Sources */,
+				DA0FB3B1290EE09E00014FCE /* AboutView.swift in Sources */,
 				DA80A7A72900A73D00982476 /* Scorigami.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

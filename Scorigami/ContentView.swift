@@ -36,6 +36,22 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
+            HStack {
+                if (zoomView) {
+                    Button(action: {
+                        zoomView = false
+                    }) {
+                        Image(systemName: "arrowshape.turn.up.backward.fill")
+                            .imageScale(.large)
+                    }
+                }
+                Spacer()
+                NavigationLink(destination: AboutView()) {
+                    Image(systemName: "info.circle").frame(width: 20)
+                }
+                Spacer().frame(width: 0, height: 40)
+            }
+
             if (zoomView) {
                 InteractiveView(viewModel: viewModel,
                                 scrollToCell: $scrollToCell,
@@ -47,7 +63,7 @@ struct ContentView: View {
             }
             Spacer()
             OptionsUI(zoomView: $zoomView).environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
-        }
+        }.navigationBarTitle("🏈 Scorigami")
     }
 }
 
@@ -198,14 +214,6 @@ struct OptionsUI: View {
             }
             Spacer().frame(height: 80)
             HStack {
-                if (zoomView) {
-                    Spacer()
-                    Button(action: {
-                        zoomView = false
-                    }) {
-                        Text("Return")
-                    }.padding(3).background(.white).cornerRadius(6.0).bold()
-                }
                 VStack {
                     HStack {
                         Text("Gradient:").bold()

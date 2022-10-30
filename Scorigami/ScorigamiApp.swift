@@ -12,7 +12,9 @@ struct ScorigamiApp: App {
     let scorigami = ScorigamiViewModel()
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: scorigami).environmentObject(scorigami)
+            NavigationView {
+                ContentView(viewModel: scorigami).environmentObject(scorigami)
+            }.navigationViewStyle(StackNavigationViewStyle())
         }
     }
 }

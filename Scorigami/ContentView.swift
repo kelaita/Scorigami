@@ -63,7 +63,14 @@ struct ContentView: View {
             }
             Spacer()
             OptionsUI(zoomView: $zoomView).environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
-        }.navigationBarTitle("🏈 Scorigami")
+        }.navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("🏈 Scorigami 🏈")
+                        .font(.largeTitle.bold())
+                        .accessibilityAddTraits(.isHeader)
+                }
+            }
     }
 }
 

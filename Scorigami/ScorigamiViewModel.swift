@@ -133,7 +133,6 @@ class ScorigamiViewModel: ObservableObject {
     public func getColor(occurrences: Int) -> Color {
         let maxOccurrences = model.getMaxOccorrences()
         let whereOnGradient = Double(occurrences) / Double(maxOccurrences)
-        print("WhereOnGradient: \(whereOnGradient)")
         let red = whereOnGradient
         let blue = 1.0 - whereOnGradient
         return Color(red: red, green: 0, blue: blue)

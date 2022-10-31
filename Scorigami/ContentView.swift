@@ -105,9 +105,11 @@ struct FullView: View {
                             .saturation(cell.saturation)
                             .padding(0)
                             .onTapGesture {
-                                let _ = print("Clicked score: \(cell.id)")
-                                scrollToCell = cell.id
-                                zoomView = true
+                                if cell.label != "" {
+                                    let _ = print("Clicked score: \(cell.label)")
+                                    scrollToCell = cell.id
+                                    zoomView = true
+                                }
                             }
                     }
                 }.padding(0).frame(maxWidth: .infinity)

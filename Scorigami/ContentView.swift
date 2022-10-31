@@ -153,8 +153,8 @@ struct InteractiveView: View {
                     }
                     
                 })
-                .id("root")
             }.padding(.all, 2.0)
+                .border(Color(red: 0.0, green: 0.0, blue: 0.4), width: 4)
                 .preferredColorScheme(.dark)
                 .onAppear {
                     reader.scrollTo(scrollToCell, anchor: .center)

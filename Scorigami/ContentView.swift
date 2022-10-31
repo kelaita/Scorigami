@@ -224,8 +224,8 @@ struct OptionsUI: View {
             HStack {
                 VStack {
                     HStack {
-                        Text("Gradient:").bold()
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+                        Spacer().frame(maxWidth: .infinity, alignment: .leading)
+                        Text("Gradient:").bold().frame(width: 75)
                         Picker("", selection: $refreshView) {
                             Text("Frequency").tag(0)
                             Text("Recency").tag(1)
@@ -236,11 +236,12 @@ struct OptionsUI: View {
                                 gradientType = tag
                                 viewModel.buildBoard(gradientType: tag)
                             }
-                    }.frame(maxWidth: .infinity, alignment: .leading)
-                }.frame(maxWidth: .infinity, alignment: .leading)
+                        Spacer().frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
             }
+            Spacer().frame(height: 7)
             GradientLegend(minMaxes: viewModel.getMinMaxes(gradientType: gradientType))
-                .frame(alignment: .trailing)
         }
         .background(Color(red: 0.0, green: 0.0, blue: 0.4))
     }
@@ -252,17 +253,17 @@ struct GradientLegend: View {
     var body: some View {
         HStack (spacing: 2) {
             Spacer().frame(maxWidth: .infinity, alignment: .leading)
-            Text(minMaxes[0]).font(.system(size: 12))
-                .frame(width: 125, alignment: .trailing)
-                .lineLimit(1)
-            Rectangle().frame(width: 200, height: 12)
-                .foregroundColor(.clear)
-                .background(LinearGradient(colors: [.black, .red], startPoint: .leading, endPoint: .trailing))
-                .border(.white)
-            Text(minMaxes[1]).font(.system(size: 12))
-                .lineLimit(1)
-                .frame(width: 40, alignment: .leading)
-            Spacer().frame(width: 8, alignment: .leading)
+            Text(minMaxes[0]).font(.system(size: 12)).frame(width: 40)
+            HStack(spacing: 0) {
+                ForEach(1...40, id: \.self) { box in
+                    Color.red
+                        .frame(width: 4, height: 20)
+                        .padding(0)
+                        .saturation(Double(box) * 2.5 / 100.0)
+                }
+            }.border(.white)
+            Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40)
+            Spacer().frame(maxWidth: .infinity, alignment: .trailing)
         }
     }
 }

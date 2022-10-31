@@ -80,8 +80,8 @@ class ScorigamiViewModel: ObservableObject {
                     min: 1920,
                     max: 2022,
                     val: getMostRecentYear(gameDesc: cell.lastGame),
-                    skewLower: 0,
-                    skewUpper: 1.0)
+                    skewLower: 0.2,
+                    skewUpper: 0.8)
             }
             if cell.occurrences == 1 {
                 cell.plural = ""
@@ -152,10 +152,11 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getMinMaxes(gradientType: Int) -> Array<String> {
         if (gradientType == 0) {
-            return ["Occurrences: 1", "277"]
+            return ["1", "277"]
         }
         else {
-            return ["Most Recent: 1920", String(Calendar.current.component(.year, from: Date()))]
+            return ["1920",
+                    String(Calendar.current.component(.year, from: Date()))]
         }
     }
 

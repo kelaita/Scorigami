@@ -90,10 +90,11 @@ struct FullView: View {
             HStack {
                 Text("0").frame(maxWidth: .infinity, alignment: .leading).bold()
                 Text("Winning Score").frame(maxWidth: .infinity, alignment: .center).bold()
-                Text("73").frame(maxWidth: .infinity, alignment: .trailing).bold()
+                Text(String(viewModel.getHighestWinningScore()))
+                    .frame(maxWidth: .infinity, alignment: .trailing).bold()
             }
             Spacer().frame(width:0, height: 15)
-            ForEach(0...51, id: \.self) { losingScore in
+            ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
                     losingScore: losingScore)
                 LazyHGrid(rows: layout, spacing: 0) {
@@ -126,7 +127,7 @@ struct InteractiveView: View {
         ScrollViewReader { reader in
             ScrollView([.horizontal, .vertical], showsIndicators: false) {
                 VStack {
-                    ForEach(0...51, id: \.self) { losingScore in
+                    ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                         LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
                             ScoreCell(losingScore: losingScore,
                                       showingAlert: $showingAlert,

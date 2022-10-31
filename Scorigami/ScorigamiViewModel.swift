@@ -37,10 +37,6 @@ class ScorigamiViewModel: ObservableObject {
         Scorigami()
     }
     
-    var gameCells: Array<Scorigami.Game> {
-        model.games
-    }
-    
     func buildBoard(gradientType: Int) {
         board = []
         for row in 0...getHighestWinningScore() {
@@ -101,6 +97,10 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getHighestWinningScore() -> Int {
         model.games.last!.winningScore
+    }
+    
+    public func getHighestLosingScore() -> Int {
+        model.highestLosingScore
     }
     
     public func getGamesForLosingScore(losingScore: Int) -> Array<Cell> {

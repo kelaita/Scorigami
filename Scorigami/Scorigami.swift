@@ -17,6 +17,8 @@ struct Scorigami {
         var lastGame: String = ""
     }
     
+    public var highestLosingScore = 0
+    
     public var games: Array<Game>
         
     init() {
@@ -58,6 +60,9 @@ struct Scorigami {
                         let regex = />(\d+)<\//
                         if let result = str.firstMatch(of: regex) {
                             game.losingScore = Int(result.1) ?? 0
+                        }
+                        if game.losingScore > highestLosingScore {
+                            highestLosingScore = game.losingScore
                         }
                     case let str where str.contains("counter"):
                         let regex = />(\d+)<\//

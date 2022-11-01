@@ -161,7 +161,7 @@ struct InteractiveView: View {
                     }
                     
                 })
-            }.padding(.all, 2.0)
+            }
                 .border(Color(red: 0.0, green: 0.0, blue: 0.4), width: 4)
                 .preferredColorScheme(.dark)
                 .onAppear {
@@ -232,7 +232,6 @@ struct OptionsUI: View {
             HStack {
                 VStack {
                     HStack {
-                        //Spacer().frame(maxWidth: .infinity, alignment: .leading)
                         Text("Gradient:").bold()
                                          .frame(width: 75, alignment: .leading)
                                          .padding(.leading)
@@ -240,7 +239,6 @@ struct OptionsUI: View {
                             Text("Frequency").tag(0)
                             Text("Recency").tag(1)
                         }.pickerStyle(.segmented)
-                            //.padding(.trailing, 8)
                             .frame(width: 200, height: 30)
                             .onChange(of: refreshView) { tag in
                                 gradientType = tag

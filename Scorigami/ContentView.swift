@@ -218,7 +218,15 @@ struct OptionsUI: View {
     
     @State var refreshView = 0
     @State var gradientType = 0
-    @State var colorMap = ColorMap.fullSpectrum
+    @State var colorMap = ColorMap.redSpecturm
+    
+    func changeColorMap() {
+        if colorMap == .redSpecturm {
+            colorMap = .fullSpectrum
+        } else {
+            colorMap = .redSpecturm
+        }
+    }
     
     var body: some View {
         VStack(spacing: 4) {
@@ -232,13 +240,15 @@ struct OptionsUI: View {
             HStack {
                 VStack {
                     HStack {
-                        Spacer().frame(maxWidth: .infinity, alignment: .leading)
-                        Text("Gradient:").bold().frame(width: 75)
+                        //Spacer().frame(maxWidth: .infinity, alignment: .leading)
+                        Text("Gradient:").bold()
+                                         .frame(width: 75, alignment: .leading)
+                                         .padding(.leading)
                         Picker("", selection: $refreshView) {
                             Text("Frequency").tag(0)
                             Text("Recency").tag(1)
                         }.pickerStyle(.segmented)
-                            .padding(.trailing, 8)
+                            //.padding(.trailing, 8)
                             .frame(width: 200, height: 30)
                             .onChange(of: refreshView) { tag in
                                 gradientType = tag
@@ -249,8 +259,22 @@ struct OptionsUI: View {
                 }
             }
             Spacer().frame(height: 7)
-            GradientLegend(minMaxes: viewModel.getMinMaxes(gradientType: gradientType),
-                           colorMap: colorMap)
+            HStack {
+                Spacer()
+                GradientLegend(minMaxes: viewModel
+                                    .getMinMaxes(gradientType: gradientType),
+                               colorMap: colorMap)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                Button(action: changeColorMap ) {
+                    HStack{
+                        Image(systemName: colorMap == .fullSpectrum ?
+                                            "checkmark.square": "square")
+                        Text("Full Color")
+                    }.font(.system(size: 12)).foregroundColor(.white)
+                }
+
+                Spacer().frame(maxWidth: .infinity, alignment: .trailing)
+            }
         }
         .background(Color(red: 0.0, green: 0.0, blue: 0.4))
     }

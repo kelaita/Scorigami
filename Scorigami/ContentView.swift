@@ -195,8 +195,7 @@ struct ScoreCell: View {
                 Text(cell.label)
                     .font(.system(size: 12)
                         .weight(.bold))
-                    //.underline(color: cell.color)
-                
+                    .underline(color: colorAndSat.0)
             }
             .padding(0)
             .frame(width: 40, height: 40)

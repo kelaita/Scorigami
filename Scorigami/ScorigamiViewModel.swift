@@ -18,7 +18,6 @@ class ScorigamiViewModel: ObservableObject {
     enum ColorMapType {
         case redSpecturm, fullSpectrum
     }
-    
     @Published var colorMapType: ColorMapType = .redSpecturm
         
     public struct Cell: Hashable, Identifiable {

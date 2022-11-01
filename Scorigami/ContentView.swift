@@ -86,7 +86,7 @@ struct FullView: View {
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     let layout = [
-        GridItem(.adaptive(minimum:5), spacing: 0)
+        GridItem(.fixed((idiom == .pad) ? 15 : 5), spacing: 0)
     ]
 
     var body: some View {
@@ -104,14 +104,15 @@ struct FullView: View {
                 LazyHGrid(rows: layout, spacing: 0) {
                     ForEach(row, id: \.self) { cell in
                         let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
-                        colorAndSat.0
+                        Rectangle()
+                            .foregroundColor(colorAndSat.0)
                             .frame(width: (idiom == .pad) ? 15 : 5,
                                    height:(idiom == .pad) ? 15 : 5)
                             .saturation(colorAndSat.1)
                             .padding(0)
                             .onTapGesture {
+                                let _ = print("Clicked score: \(cell.label)")
                                 if cell.label != "" {
-                                    let _ = print("Clicked score: \(cell.label)")
                                     scrollToCell = cell.id
                                     zoomView = true
                                 }

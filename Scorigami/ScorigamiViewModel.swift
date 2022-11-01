@@ -14,6 +14,12 @@ class ScorigamiViewModel: ObservableObject {
     let gradientType = 0
     var uniqueId = 0
     var colorMap: [(r: Double, g: Double, b: Double)] = []
+    
+    enum ColorMapType {
+        case redSpecturm, fullSpectrum
+    }
+    
+    @Published var colorMapType: ColorMapType = .redSpecturm
         
     public struct Cell: Hashable, Identifiable {
         public var id: String
@@ -197,9 +203,14 @@ class ScorigamiViewModel: ObservableObject {
         }
     }
     
-    public func getColor(val: Double) -> Color {
+    public func getColorAndSat(val: Double) -> (Color, Double) {
         if val == 0.0 {
-            return Color.black
+            return (Color.black, 1.0)
+        }
+        if colorMapType == .redSpecturm {
+            return (Color.red, val)
+        } else {
+            
         }
         var index: Int = Int(val * 100.0)
         
@@ -210,7 +221,7 @@ class ScorigamiViewModel: ObservableObject {
         var g: Double
         var b: Double
         (r, g, b) = colorMap[index]
-        return Color(red: r, green: g, blue: b)
+        return (Color(red: r, green: g, blue: b), 1.0)
 
     }
     
@@ -221,4 +232,12 @@ class ScorigamiViewModel: ObservableObject {
         return Color.black
     }
 
+    public func changeColorMapType() {
+        if colorMapType == .redSpecturm {
+            colorMapType = .fullSpectrum
+        } else {
+            colorMapType = .redSpecturm
+        }
+    }
+    
 }

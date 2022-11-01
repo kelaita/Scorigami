@@ -103,11 +103,11 @@ struct FullView: View {
                     losingScore: losingScore)
                 LazyHGrid(rows: layout, spacing: 0) {
                     ForEach(row, id: \.self) { cell in
-                        //cell.color
-                        viewModel.getColor(val: cell.saturation)
+                        let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
+                        colorAndSat.0
                             .frame(width: (idiom == .pad) ? 15 : 5,
                                    height:(idiom == .pad) ? 15 : 5)
-                            //.saturation(cell.saturation)
+                            .saturation(colorAndSat.1)
                             .padding(0)
                             .onTapGesture {
                                 if cell.label != "" {
@@ -181,7 +181,8 @@ struct ScoreCell: View {
         let row = viewModel.getGamesForLosingScore(
             losingScore: losingScore)
         ForEach(row, id: \.self) { cell in
-           
+            let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
+
             Button(action: {
                 gameData.score = cell.label
                 gameData.occurrences = cell.occurrences
@@ -199,8 +200,8 @@ struct ScoreCell: View {
             }
             .padding(0)
             .frame(width: 40, height: 40)
-            .background(viewModel.getColor(val: cell.saturation))
-            //.saturation(Double(cell.saturation))
+            .background(colorAndSat.0)
+            .saturation(colorAndSat.1)
             .foregroundColor(viewModel.getTextColor(val: cell.saturation))
             .border(cell.color, width: 0)
             .cornerRadius(0)
@@ -218,15 +219,6 @@ struct OptionsUI: View {
     
     @State var refreshView = 0
     @State var gradientType = 0
-    @State var colorMap = ColorMap.redSpecturm
-    
-    func changeColorMap() {
-        if colorMap == .redSpecturm {
-            colorMap = .fullSpectrum
-        } else {
-            colorMap = .redSpecturm
-        }
-    }
     
     var body: some View {
         VStack(spacing: 4) {
@@ -259,36 +251,27 @@ struct OptionsUI: View {
                 }
             }
             Spacer().frame(height: 7)
-            HStack {
-                Spacer()
-                GradientLegend(minMaxes: viewModel
-                                    .getMinMaxes(gradientType: gradientType),
-                               colorMap: colorMap)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Button(action: changeColorMap ) {
-                    HStack{
-                        Image(systemName: colorMap == .fullSpectrum ?
-                                            "checkmark.square": "square")
-                        Text("Full Color")
-                    }.font(.system(size: 12)).foregroundColor(.white)
-                }
-
-                Spacer().frame(maxWidth: .infinity, alignment: .trailing)
-            }
+            GradientLegend(gradientType: $gradientType)
+            .environmentObject(viewModel)
         }
         .background(Color(red: 0.0, green: 0.0, blue: 0.4))
     }
 }
 
 struct GradientLegend: View {
-    let minMaxes: Array<String>
-    let colorMap: ColorMap
+    @Binding var gradientType: Int
+    @EnvironmentObject var viewModel: ScorigamiViewModel
     
     var body: some View {
+        let minMaxes = viewModel.getMinMaxes(gradientType: gradientType)
         HStack (spacing: 2) {
-            Spacer().frame(maxWidth: .infinity, alignment: .leading)
-            Text(minMaxes[0]).font(.system(size: 12)).frame(width: 40)
-            if colorMap == .redSpecturm {
+            Spacer().frame(width: 20, alignment: .leading)
+            Text(minMaxes[0])
+                .font(.system(size: 12))
+                .frame(alignment: .leading)
+                .padding(.trailing, 4)
+                .padding(.leading, 20)
+            if viewModel.colorMapType == .redSpecturm {
                 HStack(spacing: 0) {
                     ForEach(1...40, id: \.self) { box in
                         Color.red
@@ -305,7 +288,15 @@ struct GradientLegend: View {
                 }
             }
             Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40)
-            Spacer().frame(maxWidth: .infinity, alignment: .trailing)
+            Button(action: viewModel.changeColorMapType ) {
+                HStack{
+                    Text("Full Color")
+                    Image(systemName: viewModel.colorMapType == .fullSpectrum ?
+                                        "checkmark.square": "square")
+                }.font(.system(size: 12)).foregroundColor(.white)
+            }.frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.trailing, 5)
+            Spacer()
         }
     }
 }

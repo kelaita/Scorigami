@@ -13,6 +13,7 @@ class ScorigamiViewModel: ObservableObject {
     
     let gradientType = 0
     var uniqueId = 0
+    var colorMap: [(r: Double, g: Double, b: Double)] = []
         
     public struct Cell: Hashable, Identifiable {
         public var id: String
@@ -31,6 +32,7 @@ class ScorigamiViewModel: ObservableObject {
         model = ScorigamiViewModel.createScorigami()
         model.games.sort { $0.winningScore < $1.winningScore }
         buildBoard(gradientType: gradientType)
+        buildColorMap()
     }
     
     static func createScorigami() -> Scorigami {
@@ -73,15 +75,15 @@ class ScorigamiViewModel: ObservableObject {
                     min: 1,
                     max: model.getMaxOccorrences(),
                     val: cell.occurrences,
-                    skewLower: 0.1,
-                    skewUpper: 0.6)
+                    skewLower: 0.01,
+                    skewUpper: 0.55)
             } else {
                 cell.saturation = getSaturation(
                     min: 1920,
                     max: 2022,
                     val: getMostRecentYear(gameDesc: cell.lastGame),
-                    skewLower: 0.2,
-                    skewUpper: 0.8)
+                    skewLower: 0.0,
+                    skewUpper: 1.0)
             }
             if cell.occurrences == 1 {
                 cell.plural = ""
@@ -158,6 +160,65 @@ class ScorigamiViewModel: ObservableObject {
             return ["1920",
                     String(Calendar.current.component(.year, from: Date()))]
         }
+    }
+    
+    public func buildColorMap() -> Void {
+        var r: Double
+        var g: Double
+        var b: Double
+        
+        // blue to cyan
+        for val in (1...25) {
+            r = 0.0
+            g = Double(val) * 4.0 / 100.0
+            b = 1.0
+            colorMap.append((r: r, g: g, b: b))
+        }
+        // cyan to green
+        for val in (1...25) {
+            r = 0.0
+            g = 1.0
+            b = 1.0 - (Double(val) * 4.0 / 100.0)
+            colorMap.append((r: r, g: g, b: b))
+        }
+        // green to yellow
+        for val in (1...25) {
+            r = Double(val) * 4.0 / 100.0
+            g = 1.0
+            b = 0.0
+            colorMap.append((r: r, g: g, b: b))
+        }
+        // yellow to red
+        for val in (1...25) {
+            r = 1.0
+            g = 1.0 - (Double(val) * 4.0 / 100.0)
+            b = 0.0
+            colorMap.append((r: r, g: g, b: b))
+        }
+    }
+    
+    public func getColor(val: Double) -> Color {
+        if val == 0.0 {
+            return Color.black
+        }
+        var index: Int = Int(val * 100.0)
+        
+        if index > 99 {
+            index = 99
+        }
+        var r: Double
+        var g: Double
+        var b: Double
+        (r, g, b) = colorMap[index]
+        return Color(red: r, green: g, blue: b)
+
+    }
+    
+    public func getTextColor(val: Double) -> Color {
+        if val < 0.2 || val > 0.8 {
+            return Color.white
+        }
+        return Color.black
     }
 
 }

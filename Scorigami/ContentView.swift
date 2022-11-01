@@ -25,6 +25,10 @@ public class GameData {
     }
 }
 
+enum ColorMap {
+    case redSpecturm, fullSpectrum
+}
+
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 private var isPortrait : Bool { UIDevice.current.orientation.isPortrait }
 
@@ -99,10 +103,11 @@ struct FullView: View {
                     losingScore: losingScore)
                 LazyHGrid(rows: layout, spacing: 0) {
                     ForEach(row, id: \.self) { cell in
-                        cell.color
+                        //cell.color
+                        viewModel.getColor(val: cell.saturation)
                             .frame(width: (idiom == .pad) ? 15 : 5,
                                    height:(idiom == .pad) ? 15 : 5)
-                            .saturation(cell.saturation)
+                            //.saturation(cell.saturation)
                             .padding(0)
                             .onTapGesture {
                                 if cell.label != "" {
@@ -189,14 +194,14 @@ struct ScoreCell: View {
                 Text(cell.label)
                     .font(.system(size: 12)
                         .weight(.bold))
-                    .underline(color: cell.color)
+                    //.underline(color: cell.color)
                 
             }
             .padding(0)
             .frame(width: 40, height: 40)
-            .background(cell.color)
-            .saturation(Double(cell.saturation))
-            .foregroundColor(Color.white)
+            .background(viewModel.getColor(val: cell.saturation))
+            //.saturation(Double(cell.saturation))
+            .foregroundColor(viewModel.getTextColor(val: cell.saturation))
             .border(cell.color, width: 0)
             .cornerRadius(0)
             .buttonStyle(BorderlessButtonStyle())
@@ -213,6 +218,7 @@ struct OptionsUI: View {
     
     @State var refreshView = 0
     @State var gradientType = 0
+    @State var colorMap = ColorMap.fullSpectrum
     
     var body: some View {
         VStack(spacing: 4) {
@@ -243,7 +249,8 @@ struct OptionsUI: View {
                 }
             }
             Spacer().frame(height: 7)
-            GradientLegend(minMaxes: viewModel.getMinMaxes(gradientType: gradientType))
+            GradientLegend(minMaxes: viewModel.getMinMaxes(gradientType: gradientType),
+                           colorMap: colorMap)
         }
         .background(Color(red: 0.0, green: 0.0, blue: 0.4))
     }
@@ -251,19 +258,28 @@ struct OptionsUI: View {
 
 struct GradientLegend: View {
     let minMaxes: Array<String>
+    let colorMap: ColorMap
     
     var body: some View {
         HStack (spacing: 2) {
             Spacer().frame(maxWidth: .infinity, alignment: .leading)
             Text(minMaxes[0]).font(.system(size: 12)).frame(width: 40)
-            HStack(spacing: 0) {
-                ForEach(1...40, id: \.self) { box in
-                    Color.red
-                        .frame(width: 4, height: 20)
-                        .padding(0)
-                        .saturation(Double(box) * 2.5 / 100.0)
+            if colorMap == .redSpecturm {
+                HStack(spacing: 0) {
+                    ForEach(1...40, id: \.self) { box in
+                        Color.red
+                            .frame(width: 4, height: 20)
+                            .padding(0)
+                            .saturation(Double(box) * 2.5 / 100.0)
+                    }
+                }.border(.white)
+            } else { // else it is .fullSpectrum
+                HStack {
+                    let grad = Gradient(colors: [.blue, .cyan, .green, .yellow, .red])
+                    LinearGradient(gradient: grad, startPoint: .leading, endPoint: .trailing)
+                        .frame(width: 160, height: 20)
                 }
-            }.border(.white)
+            }
             Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40)
             Spacer().frame(maxWidth: .infinity, alignment: .trailing)
         }

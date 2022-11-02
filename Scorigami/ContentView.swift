@@ -34,7 +34,6 @@ private var isPortrait : Bool { UIDevice.current.orientation.isPortrait }
 
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
-    @State var gameData = GameData()
     @State var scrollToCell: String = "0-0"
 
     var body: some View {
@@ -57,11 +56,9 @@ struct ContentView: View {
 
             if (viewModel.zoomView) {
                 InteractiveView(viewModel: viewModel,
-                                scrollToCell: $scrollToCell,
-                                gameData: gameData).environmentObject(viewModel)
+                                scrollToCell: $scrollToCell).environmentObject(viewModel)
             } else {
-                FullView(gameData: gameData,
-                         scrollToCell: $scrollToCell).environmentObject(viewModel)
+                FullView(scrollToCell: $scrollToCell).environmentObject(viewModel)
             }
             Spacer()
             OptionsUI().environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
@@ -77,9 +74,8 @@ struct ContentView: View {
 }
 
 struct FullView: View {
-    @State var gameData = GameData()
     @Binding var scrollToCell: String
-        
+
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     let layout = [
@@ -136,7 +132,7 @@ struct InteractiveView: View {
                         LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
                             ScoreCell(losingScore: losingScore,
                                       showingAlert: $showingAlert,
-                                      gameData: gameData).environmentObject(viewModel)
+                                      gameData: $gameData).environmentObject(viewModel)
                         }
                     }
                 }.alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
@@ -171,7 +167,7 @@ struct InteractiveView: View {
 struct ScoreCell: View {
     let losingScore: Int
     @Binding var showingAlert: Bool
-    let gameData: GameData
+    @Binding var gameData: GameData
         
     @EnvironmentObject var viewModel: ScorigamiViewModel
     

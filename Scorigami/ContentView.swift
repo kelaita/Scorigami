@@ -84,11 +84,19 @@ struct FullView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Text("0").frame(maxWidth: .infinity, alignment: .leading).bold()
-                Text("Winning Score").frame(maxWidth: .infinity, alignment: .center).bold()
-                Text(String(viewModel.getHighestWinningScore()))
-                    .frame(maxWidth: .infinity, alignment: .trailing).bold()
-            }.frame(width: (idiom == .pad) ? 740 : 370)
+                Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
+                    .font(.system(size: 12)).bold()
+            }
+            HStack {
+                let maxScoreLabel = viewModel.getHighestWinningScore() / 10 * 10
+                ForEach(0...maxScoreLabel, id: \.self) { val in
+                    if val % 10 == 0 {
+                        Text(String(val))
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .font(.system(size: 12))
+                    }
+                }
+            }.frame(width: (idiom == .pad) ? 740 : 370, alignment: .leading)
             Spacer().frame(width:0, height: 15)
             ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(

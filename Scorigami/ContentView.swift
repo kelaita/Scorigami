@@ -29,11 +29,13 @@ enum ColorMap {
     case redSpecturm, fullSpectrum
 }
 
+let scorigamiBlue = Color(red: 0.11, green: 0.26, blue: 0.344)
+
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
-    @State var scrollToCell: String = "0-0"
+    @State var scrollToCell: String = ""
 
     var body: some View {
         VStack {
@@ -77,11 +79,15 @@ struct FullView: View {
 
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
-    let layout = [
-        GridItem(.fixed((idiom == .pad) ? 16 : 8), spacing: 0)
-    ]
+    let iPhoneCellHeight: CGFloat = 8.0
+    let iPhoneCellWidth: CGFloat = 4.5
+    let iPhoneScreenWidth: CGFloat = 333
 
     var body: some View {
+        let layout = [
+            GridItem(.fixed((idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight),
+                     spacing: 0)
+        ]
         VStack(spacing: 0) {
             Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
                 .font(.system(size: 12)).bold()
@@ -94,7 +100,7 @@ struct FullView: View {
                             .font(.system(size: 10))
                     }
                 }
-            }.frame(width: (idiom == .pad) ? 740 : 333, alignment: .leading)
+            }.frame(width: (idiom == .pad) ? iPhoneScreenWidth * 2.22 : iPhoneScreenWidth, alignment: .leading)
             Spacer().frame(width:0, height: 15)
             ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
@@ -110,8 +116,8 @@ struct FullView: View {
                             let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
                             Rectangle()
                                 .foregroundColor(colorAndSat.0)
-                                .frame(width: (idiom == .pad) ? 10 : 4.5,
-                                       height:(idiom == .pad) ? 16 : 8)
+                                .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
+                                       height:(idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight)
                                 .saturation(colorAndSat.1)
                                 .padding(0)
                                 .onTapGesture {
@@ -167,7 +173,7 @@ struct InteractiveView: View {
                     
                 })
             }
-                .border(Color(red: 0.0, green: 0.0, blue: 0.4), width: 4)
+                .border(scorigamiBlue, width: 4)
                 .preferredColorScheme(.dark)
                 .onAppear {
                     reader.scrollTo(scrollToCell, anchor: .center)
@@ -235,9 +241,7 @@ struct OptionsUI: View {
             HStack {
                 VStack {
                     HStack {
-                        Text("Gradient:").bold()
-                                         .frame(alignment: .leading)
-                                         .padding(.leading)
+                        Spacer().frame(width: 50, alignment: .leading)
                         Picker("", selection: $refreshView) {
                             Text("Frequency").tag(0)
                             Text("Recency").tag(1)
@@ -255,7 +259,7 @@ struct OptionsUI: View {
             GradientLegend(gradientType: $gradientType)
             .environmentObject(viewModel)
         }
-        .background(Color(red: 0.0, green: 0.0, blue: 0.4))
+        .background(scorigamiBlue)
     }
 }
 
@@ -265,16 +269,17 @@ struct GradientLegend: View {
     
     var body: some View {
         let minMaxes = viewModel.getMinMaxes(gradientType: gradientType)
+        let colorSlices = 42
         HStack (spacing: 2) {
             Spacer().frame(width: 1, alignment: .leading)
             Text(minMaxes[0])
-                .font(.system(size: 12))
+                .font(.system(size: 12)).bold()
                 .frame(width: 30, alignment: .trailing)
                 .padding(.trailing, 4)
                 .padding(.leading, 20)
             if viewModel.colorMapType == .redSpecturm {
                 HStack(spacing: 0) {
-                    ForEach(1...42, id: \.self) { box in
+                    ForEach(1...colorSlices, id: \.self) { box in
                         Color.red
                             .frame(width: 4, height: 20)
                             .padding(0)
@@ -285,13 +290,13 @@ struct GradientLegend: View {
                 HStack {
                     let grad = Gradient(colors: [.blue, .cyan, .green, .yellow, .red])
                     LinearGradient(gradient: grad, startPoint: .leading, endPoint: .trailing)
-                        .frame(width: 168, height: 20)
+                        .frame(width: CGFloat(colorSlices) * 4.0, height: 20)
                 }
             }
-            Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40)
+            Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40).bold()
             Button(action: viewModel.changeColorMapType ) {
                 HStack{
-                    Text("Full Color")
+                    Text("Full Color").bold()
                     Image(systemName: viewModel.colorMapType == .fullSpectrum ?
                                         "checkmark.square": "square")
                 }.font(.system(size: 12)).foregroundColor(.white)

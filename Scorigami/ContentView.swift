@@ -83,14 +83,12 @@ struct FullView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            HStack {
-                Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
-                    .font(.system(size: 12)).bold()
-            }
+            Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
+                .font(.system(size: 12)).bold()
             HStack {
                 let maxScoreLabel = viewModel.getHighestWinningScore() / 10 * 10
                 ForEach(0...maxScoreLabel, id: \.self) { val in
-                    if val % 10 == 0 {
+                    if val % 5 == 0 {
                         Text(String(val))
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .font(.system(size: 12))
@@ -101,24 +99,31 @@ struct FullView: View {
             ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
                     losingScore: losingScore)
-                LazyHGrid(rows: layout, spacing: 0) {
-                    ForEach(row, id: \.self) { cell in
-                        let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
-                        Rectangle()
-                            .foregroundColor(colorAndSat.0)
-                            .frame(width: (idiom == .pad) ? 10 : 5,
-                                   height:(idiom == .pad) ? 16 : 8)
-                            .saturation(colorAndSat.1)
-                            .padding(0)
-                            .onTapGesture {
-                                let _ = print("Clicked score: \(cell.label)")
-                                if cell.label != "" {
-                                    scrollToCell = cell.id
-                                    viewModel.toggleZoomView()
-                                }
-                            }
+                HStack {
+                    if (losingScore % 5 == 0) {
+                        Text(String(losingScore)).font(.system(size: 6)).frame(width: 12)
+                    } else {
+                        Spacer().frame(width: 12)
                     }
-                }.padding(0).frame(maxWidth: .infinity)
+                    LazyHGrid(rows: layout, spacing: 0) {
+                        ForEach(row, id: \.self) { cell in
+                            let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
+                            Rectangle()
+                                .foregroundColor(colorAndSat.0)
+                                .frame(width: (idiom == .pad) ? 10 : 5,
+                                       height:(idiom == .pad) ? 16 : 8)
+                                .saturation(colorAndSat.1)
+                                .padding(0)
+                                .onTapGesture {
+                                    let _ = print("Clicked score: \(cell.label)")
+                                    if cell.label != "" {
+                                        scrollToCell = cell.id
+                                        viewModel.toggleZoomView()
+                                    }
+                                }
+                        }
+                    }.padding(0).frame(maxWidth: .infinity)
+                }
             }
         }.preferredColorScheme(.dark)
     }

@@ -253,7 +253,7 @@ struct GradientLegend: View {
     var body: some View {
         let minMaxes = viewModel.getMinMaxes(gradientType: gradientType)
         HStack (spacing: 2) {
-            Spacer().frame(width: 20, alignment: .leading)
+            Spacer().frame(width: 6, alignment: .leading)
             Text(minMaxes[0])
                 .font(.system(size: 12))
                 .frame(alignment: .leading)
@@ -261,7 +261,7 @@ struct GradientLegend: View {
                 .padding(.leading, 20)
             if viewModel.colorMapType == .redSpecturm {
                 HStack(spacing: 0) {
-                    ForEach(1...50, id: \.self) { box in
+                    ForEach(1...42, id: \.self) { box in
                         Color.red
                             .frame(width: 4, height: 20)
                             .padding(0)
@@ -272,7 +272,7 @@ struct GradientLegend: View {
                 HStack {
                     let grad = Gradient(colors: [.blue, .cyan, .green, .yellow, .red])
                     LinearGradient(gradient: grad, startPoint: .leading, endPoint: .trailing)
-                        .frame(width: 200, height: 20)
+                        .frame(width: 168, height: 20)
                 }
             }
             Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40)
@@ -283,7 +283,7 @@ struct GradientLegend: View {
                                         "checkmark.square": "square")
                 }.font(.system(size: 12)).foregroundColor(.white)
             }.frame(maxWidth: .infinity, alignment: .trailing)
-                .padding(.trailing, 5)
+                .padding(.trailing, 2)
             Spacer()
         }
     }

@@ -226,7 +226,8 @@ class ScorigamiViewModel: ObservableObject {
     }
     
     public func getTextColor(val: Double) -> Color {
-        if val < 0.2 || val > 0.8 {
+        if val < 0.2 || val > 0.8 ||
+            colorMapType == .redSpecturm {
             return Color.white
         }
         return Color.black

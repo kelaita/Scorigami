@@ -223,7 +223,7 @@ struct OptionsUI: View {
                 VStack {
                     HStack {
                         Text("Gradient:").bold()
-                                         .frame(width: 75, alignment: .leading)
+                                         .frame(alignment: .leading)
                                          .padding(.leading)
                         Picker("", selection: $refreshView) {
                             Text("Frequency").tag(0)
@@ -253,10 +253,10 @@ struct GradientLegend: View {
     var body: some View {
         let minMaxes = viewModel.getMinMaxes(gradientType: gradientType)
         HStack (spacing: 2) {
-            Spacer().frame(width: 6, alignment: .leading)
+            Spacer().frame(width: 1, alignment: .leading)
             Text(minMaxes[0])
                 .font(.system(size: 12))
-                .frame(alignment: .leading)
+                .frame(width: 30, alignment: .trailing)
                 .padding(.trailing, 4)
                 .padding(.leading, 20)
             if viewModel.colorMapType == .redSpecturm {

@@ -91,26 +91,26 @@ struct FullView: View {
                     if val % 5 == 0 {
                         Text(String(val))
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(size: 12))
+                            .font(.system(size: 10))
                     }
                 }
-            }.frame(width: (idiom == .pad) ? 740 : 370, alignment: .leading)
+            }.frame(width: (idiom == .pad) ? 740 : 333, alignment: .leading)
             Spacer().frame(width:0, height: 15)
             ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
                     losingScore: losingScore)
                 HStack {
                     if (losingScore % 5 == 0) {
-                        Text(String(losingScore)).font(.system(size: 6)).frame(width: 12)
+                        Text(String(losingScore)).font(.system(size: 10)).frame(width: 18, height: 3).padding(0)
                     } else {
-                        Spacer().frame(width: 12)
+                        Spacer().frame(width: 18)
                     }
                     LazyHGrid(rows: layout, spacing: 0) {
                         ForEach(row, id: \.self) { cell in
                             let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
                             Rectangle()
                                 .foregroundColor(colorAndSat.0)
-                                .frame(width: (idiom == .pad) ? 10 : 5,
+                                .frame(width: (idiom == .pad) ? 10 : 4.5,
                                        height:(idiom == .pad) ? 16 : 8)
                                 .saturation(colorAndSat.1)
                                 .padding(0)

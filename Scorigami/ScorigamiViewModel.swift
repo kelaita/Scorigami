@@ -89,8 +89,8 @@ class ScorigamiViewModel: ObservableObject {
                     skewUpper: 0.55)
             } else {
                 cell.saturation = getSaturation(
-                    min: 1920,
-                    max: 2022,
+                    min: model.earliestGameYear,
+                    max: Calendar.current.component(.year, from: Date()),
                     val: getMostRecentYear(gameDesc: cell.lastGame),
                     skewLower: 0.0,
                     skewUpper: 1.0)
@@ -121,7 +121,7 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getMostRecentYear(gameDesc: String) -> Int {
         let year = gameDesc.suffix(4)
-        return Int(year) ?? 1920
+        return Int(year) ?? model.earliestGameYear
     }
     
     public func getSaturation(min: Int,
@@ -156,10 +156,10 @@ class ScorigamiViewModel: ObservableObject {
     
     public func getMinMaxes() -> Array<String> {
         if (gradientType == .frequency) {
-            return ["1", "277"]
+            return ["1", String(model.highestCounter)]
         }
         else {
-            return ["1920",
+            return [String(model.earliestGameYear),
                     String(Calendar.current.component(.year, from: Date()))]
         }
     }

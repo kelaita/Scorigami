@@ -66,9 +66,9 @@ struct ContentView: View {
         }.navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("🏈 Scorigami 🏈")
-                        .font(.largeTitle.bold())
-                        .accessibilityAddTraits(.isHeader)
+                    Image("scorigami_title")
+                                .resizable()
+                                .frame(width: 300)
                 }
             }
     }

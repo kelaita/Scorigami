@@ -19,6 +19,7 @@ class ScorigamiViewModel: ObservableObject {
         case redSpecturm, fullSpectrum
     }
     @Published var colorMapType: ColorMapType = .redSpecturm
+    @Published var zoomView: Bool = false
         
     public struct Cell: Hashable, Identifiable {
         public var id: String
@@ -237,6 +238,10 @@ class ScorigamiViewModel: ObservableObject {
         } else {
             colorMapType = .redSpecturm
         }
+    }
+    
+    public func toggleZoomView() {
+        zoomView.toggle()
     }
     
 }

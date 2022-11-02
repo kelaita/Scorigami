@@ -35,15 +35,14 @@ private var isPortrait : Bool { UIDevice.current.orientation.isPortrait }
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
     @State var gameData = GameData()
-    @State var zoomView = false
     @State var scrollToCell: String = "0-0"
 
     var body: some View {
         VStack {
             HStack {
-                if (zoomView) {
+                if (viewModel.zoomView) {
                     Button(action: {
-                        zoomView = false
+                        viewModel.toggleZoomView()
                     }) {
                         Image(systemName: "arrowshape.turn.up.backward.fill")
                             .imageScale(.large)
@@ -56,17 +55,16 @@ struct ContentView: View {
                 Spacer().frame(width: 0, height: 40)
             }
 
-            if (zoomView) {
+            if (viewModel.zoomView) {
                 InteractiveView(viewModel: viewModel,
                                 scrollToCell: $scrollToCell,
                                 gameData: gameData).environmentObject(viewModel)
             } else {
                 FullView(gameData: gameData,
-                         scrollToCell: $scrollToCell,
-                         zoomView: $zoomView).environmentObject(viewModel)
+                         scrollToCell: $scrollToCell).environmentObject(viewModel)
             }
             Spacer()
-            OptionsUI(zoomView: $zoomView).environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
+            OptionsUI().environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
         }.navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
@@ -81,7 +79,6 @@ struct ContentView: View {
 struct FullView: View {
     @State var gameData = GameData()
     @Binding var scrollToCell: String
-    @Binding var zoomView: Bool
         
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
@@ -114,7 +111,7 @@ struct FullView: View {
                                 let _ = print("Clicked score: \(cell.label)")
                                 if cell.label != "" {
                                     scrollToCell = cell.id
-                                    zoomView = true
+                                    viewModel.toggleZoomView()
                                 }
                             }
                     }
@@ -213,8 +210,6 @@ struct ScoreCell: View {
 }
 
 struct OptionsUI: View {
-    @Binding var zoomView: Bool
-
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     @State var refreshView = 0
@@ -223,7 +218,7 @@ struct OptionsUI: View {
     var body: some View {
         VStack(spacing: 4) {
             Spacer().frame(height: 20)
-            if (zoomView) {
+            if (viewModel.zoomView) {
                 Text("Tap score for info. Drag for more scores").bold()
             } else {
                 Text("Tap a region to view scores").bold()

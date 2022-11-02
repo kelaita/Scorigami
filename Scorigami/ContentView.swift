@@ -227,7 +227,6 @@ struct OptionsUI: View {
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     @State var refreshView = 0
-    @State var gradientType = 0
     
     var body: some View {
         VStack(spacing: 4) {
@@ -243,20 +242,20 @@ struct OptionsUI: View {
                     HStack {
                         Spacer().frame(width: 50, alignment: .leading)
                         Picker("", selection: $refreshView) {
-                            Text("Frequency").tag(0)
-                            Text("Recency").tag(1)
+                            Text("Frequency").tag(Int(0))
+                            Text("Recency").tag(Int(1))
                         }.pickerStyle(.segmented)
                             .frame(width: 200, height: 30)
                             .onChange(of: refreshView) { tag in
-                                gradientType = tag
-                                viewModel.buildBoard(gradientType: tag)
+                                viewModel.setGradientType(type: tag)
+                                viewModel.buildBoard()
                             }
                         Spacer().frame(maxWidth: .infinity, alignment: .trailing)
                     }
                 }
             }
             Spacer().frame(height: 7)
-            GradientLegend(gradientType: $gradientType)
+            GradientLegend()
             .environmentObject(viewModel)
         }
         .background(scorigamiBlue)
@@ -264,11 +263,10 @@ struct OptionsUI: View {
 }
 
 struct GradientLegend: View {
-    @Binding var gradientType: Int
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     var body: some View {
-        let minMaxes = viewModel.getMinMaxes(gradientType: gradientType)
+        let minMaxes = viewModel.getMinMaxes()
         let colorSlices = 42
         HStack (spacing: 2) {
             Spacer().frame(width: 1, alignment: .leading)

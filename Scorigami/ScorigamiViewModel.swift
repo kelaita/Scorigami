@@ -11,7 +11,6 @@ class ScorigamiViewModel: ObservableObject {
     
     @Published var model: Scorigami
     
-    let gradientType = 0
     var uniqueId = 0
     var colorMap: [(r: Double, g: Double, b: Double)] = []
     
@@ -19,6 +18,12 @@ class ScorigamiViewModel: ObservableObject {
         case redSpecturm, fullSpectrum
     }
     @Published var colorMapType: ColorMapType = .redSpecturm
+    
+    enum GradientType {
+        case frequency, recency
+    }
+    @Published var gradientType: GradientType = .frequency
+    
     @Published var zoomView: Bool = false
         
     public struct Cell: Hashable, Identifiable {
@@ -37,7 +42,7 @@ class ScorigamiViewModel: ObservableObject {
     init() {
         model = ScorigamiViewModel.createScorigami()
         model.games.sort { $0.winningScore < $1.winningScore }
-        buildBoard(gradientType: gradientType)
+        buildBoard()
         buildColorMap()
     }
     
@@ -45,18 +50,18 @@ class ScorigamiViewModel: ObservableObject {
         Scorigami()
     }
     
-    func buildBoard(gradientType: Int) {
+    func buildBoard() {
         board = []
         for row in 0...getHighestWinningScore() {
             board.append([Cell]())
             for col in 0...getHighestWinningScore() {
-                board[row].append(searchGames(winningScore: col, losingScore: row, gradientVal: gradientType))
+                board[row].append(searchGames(winningScore: col, losingScore: row))
             }
         }
         uniqueId += 1
     }
     
-    func searchGames(winningScore: Int, losingScore: Int, gradientVal: Int) -> Cell {
+    func searchGames(winningScore: Int, losingScore: Int) -> Cell {
         let index = model.games.firstIndex {
             $0.winningScore == winningScore &&
             $0.losingScore == losingScore }
@@ -73,10 +78,9 @@ class ScorigamiViewModel: ObservableObject {
         if index != nil {
             cell.occurrences = model.games[index!].occurrences
             cell.color = Color.red
-            //cell.color = getColor(occurrences: cell.occurrences)
             cell.lastGame = model.games[index!].lastGame
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
-            if gradientVal == 0 {
+            if gradientType == .frequency {
                 cell.saturation = getSaturation(
                     min: 1,
                     max: model.getMaxOccorrences(),
@@ -138,14 +142,6 @@ class ScorigamiViewModel: ObservableObject {
         return saturation
     }
     
-    public func getColor(occurrences: Int) -> Color {
-        let maxOccurrences = model.getMaxOccorrences()
-        let whereOnGradient = Double(occurrences) / Double(maxOccurrences)
-        let red = whereOnGradient
-        let blue = 1.0 - whereOnGradient
-        return Color(red: red, green: 0, blue: blue)
-    }
-    
     public func fixScrollCell(cell: String) -> String {
         let id_scores = cell.components(separatedBy: ":")
         let id = id_scores[0]
@@ -158,8 +154,8 @@ class ScorigamiViewModel: ObservableObject {
         }
     }
     
-    public func getMinMaxes(gradientType: Int) -> Array<String> {
-        if (gradientType == 0) {
+    public func getMinMaxes() -> Array<String> {
+        if (gradientType == .frequency) {
             return ["1", "277"]
         }
         else {
@@ -243,6 +239,14 @@ class ScorigamiViewModel: ObservableObject {
     
     public func toggleZoomView() {
         zoomView.toggle()
+    }
+    
+    public func setGradientType(type: Int) {
+        if type == 0 {
+            gradientType = .frequency
+        } else {
+            gradientType = .recency
+        }
     }
     
 }

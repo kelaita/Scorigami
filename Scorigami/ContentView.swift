@@ -44,9 +44,13 @@ struct ContentView: View {
                     }) {
                         Image(systemName: "arrowshape.turn.up.backward.fill")
                             .imageScale(.large)
-                    }.frame(width: 30, alignment: .leading)
+                    }
                 }
-                Spacer().frame(maxWidth: .infinity, alignment: .trailing)
+                Spacer()
+                NavigationLink(destination: AboutView()) {
+                    Image(systemName: "info.circle.fill").imageScale(.large)
+                }
+                Spacer().frame(width: 0, height: 40)
             }
 
             if (viewModel.zoomView) {
@@ -60,16 +64,9 @@ struct ContentView: View {
         }.navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    HStack {
-                        Spacer()
-                        Text("🏈 Scorigami 🏈")
-                            .font(.largeTitle.bold())
-                            .accessibilityAddTraits(.isHeader)
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        NavigationLink(destination: AboutView()) {
-                            Image(systemName: "info.circle.fill").imageScale(.large)
-                        }
-                    }
+                    Text("🏈 Scorigami 🏈")
+                        .font(.largeTitle.bold())
+                        .accessibilityAddTraits(.isHeader)
                 }
             }
     }

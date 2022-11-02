@@ -48,7 +48,7 @@ struct ContentView: View {
                 }
                 Spacer()
                 NavigationLink(destination: AboutView()) {
-                    Image(systemName: "info.circle").frame(width: 20)
+                    Image(systemName: "info.circle.fill").imageScale(.large)
                 }
                 Spacer().frame(width: 0, height: 40)
             }

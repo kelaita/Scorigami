@@ -30,7 +30,6 @@ enum ColorMap {
 }
 
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
-private var isPortrait : Bool { UIDevice.current.orientation.isPortrait }
 
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
@@ -79,7 +78,7 @@ struct FullView: View {
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     let layout = [
-        GridItem(.fixed((idiom == .pad) ? 15 : 5), spacing: 0)
+        GridItem(.fixed((idiom == .pad) ? 24 : 8), spacing: 0)
     ]
 
     var body: some View {
@@ -100,7 +99,7 @@ struct FullView: View {
                         Rectangle()
                             .foregroundColor(colorAndSat.0)
                             .frame(width: (idiom == .pad) ? 15 : 5,
-                                   height:(idiom == .pad) ? 15 : 5)
+                                   height:(idiom == .pad) ? 24 : 8)
                             .saturation(colorAndSat.1)
                             .padding(0)
                             .onTapGesture {
@@ -262,7 +261,7 @@ struct GradientLegend: View {
                 .padding(.leading, 20)
             if viewModel.colorMapType == .redSpecturm {
                 HStack(spacing: 0) {
-                    ForEach(1...40, id: \.self) { box in
+                    ForEach(1...50, id: \.self) { box in
                         Color.red
                             .frame(width: 4, height: 20)
                             .padding(0)
@@ -273,7 +272,7 @@ struct GradientLegend: View {
                 HStack {
                     let grad = Gradient(colors: [.blue, .cyan, .green, .yellow, .red])
                     LinearGradient(gradient: grad, startPoint: .leading, endPoint: .trailing)
-                        .frame(width: 160, height: 20)
+                        .frame(width: 200, height: 20)
                 }
             }
             Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40)
@@ -289,10 +288,3 @@ struct GradientLegend: View {
         }
     }
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let svm = ScorigamiViewModel()
-//        ContentView(viewModel: svm)
-//    }
-//}

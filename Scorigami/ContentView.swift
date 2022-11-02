@@ -78,7 +78,7 @@ struct FullView: View {
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     let layout = [
-        GridItem(.fixed((idiom == .pad) ? 24 : 8), spacing: 0)
+        GridItem(.fixed((idiom == .pad) ? 16 : 8), spacing: 0)
     ]
 
     var body: some View {
@@ -88,7 +88,7 @@ struct FullView: View {
                 Text("Winning Score").frame(maxWidth: .infinity, alignment: .center).bold()
                 Text(String(viewModel.getHighestWinningScore()))
                     .frame(maxWidth: .infinity, alignment: .trailing).bold()
-            }
+            }.frame(width: (idiom == .pad) ? 740 : 370)
             Spacer().frame(width:0, height: 15)
             ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
                 let row = viewModel.getGamesForLosingScore(
@@ -98,8 +98,8 @@ struct FullView: View {
                         let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
                         Rectangle()
                             .foregroundColor(colorAndSat.0)
-                            .frame(width: (idiom == .pad) ? 15 : 5,
-                                   height:(idiom == .pad) ? 24 : 8)
+                            .frame(width: (idiom == .pad) ? 10 : 5,
+                                   height:(idiom == .pad) ? 16 : 8)
                             .saturation(colorAndSat.1)
                             .padding(0)
                             .onTapGesture {

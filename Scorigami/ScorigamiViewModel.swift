@@ -17,7 +17,7 @@ class ScorigamiViewModel: ObservableObject {
     enum ColorMapType {
         case redSpecturm, fullSpectrum
     }
-    @Published var colorMapType: ColorMapType = .redSpecturm
+    @Published var colorMapType: ColorMapType = .fullSpectrum
     
     enum GradientType {
         case frequency, recency

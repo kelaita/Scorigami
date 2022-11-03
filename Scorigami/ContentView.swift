@@ -236,7 +236,7 @@ struct OptionsUI: View {
             } else {
                 Text("Tap a region to view scores").bold()
             }
-            Spacer().frame(height: 80)
+            Spacer().frame(height: 40)
             HStack {
                 VStack {
                     HStack {
@@ -256,6 +256,7 @@ struct OptionsUI: View {
             }
             Spacer().frame(height: 7)
             GradientLegend()
+            Spacer().frame(height: 7)
             .environmentObject(viewModel)
         }
         .background(scorigamiBlue)

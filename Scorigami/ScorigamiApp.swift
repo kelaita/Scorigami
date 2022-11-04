@@ -9,13 +9,13 @@ import SwiftUI
 
 @main
 struct ScorigamiApp: App {
-    let scorigami = ScorigamiViewModel()
-    var body: some Scene {
-        WindowGroup {
-            NavigationView {
-                ContentView(viewModel: scorigami).environmentObject(scorigami)
-            }.navigationViewStyle(StackNavigationViewStyle())
-        }
+  let scorigami = ScorigamiViewModel()
+  var body: some Scene {
+    WindowGroup {
+      NavigationView {
+        ContentView(viewModel: scorigami).environmentObject(scorigami)
+      }.navigationViewStyle(StackNavigationViewStyle())
     }
+  }
 }
 

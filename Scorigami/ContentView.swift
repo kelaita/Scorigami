@@ -35,7 +35,6 @@ private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 
 struct ContentView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
-    @State var scrollToCell: String = ""
 
     var body: some View {
         VStack {
@@ -56,10 +55,9 @@ struct ContentView: View {
             }
 
             if (viewModel.zoomView) {
-                InteractiveView(viewModel: viewModel,
-                                scrollToCell: $scrollToCell).environmentObject(viewModel)
+                InteractiveView(viewModel: viewModel).environmentObject(viewModel)
             } else {
-                FullView(scrollToCell: $scrollToCell).environmentObject(viewModel)
+                FullView().environmentObject(viewModel)
             }
             Spacer()
             OptionsUI().environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
@@ -75,8 +73,6 @@ struct ContentView: View {
 }
 
 struct FullView: View {
-    @Binding var scrollToCell: String
-
     @EnvironmentObject var viewModel: ScorigamiViewModel
     
     let iPhoneCellHeight: CGFloat = 8.0
@@ -123,7 +119,7 @@ struct FullView: View {
                                 .onTapGesture {
                                     let _ = print("Clicked score: \(cell.label)")
                                     if cell.label != "" {
-                                        scrollToCell = cell.id
+                                        viewModel.scrollToCell = cell.id
                                         viewModel.toggleZoomView()
                                     }
                                 }
@@ -137,7 +133,6 @@ struct FullView: View {
 
 struct InteractiveView: View {
     @ObservedObject var viewModel: ScorigamiViewModel
-    @Binding var scrollToCell: String
     @State var gameData = GameData()
     
     @State var showingAlert: Bool = false
@@ -176,7 +171,7 @@ struct InteractiveView: View {
                 .border(scorigamiBlue, width: 4)
                 .preferredColorScheme(.dark)
                 .onAppear {
-                    reader.scrollTo(scrollToCell, anchor: .center)
+                    reader.scrollTo(viewModel.scrollToCell, anchor: .center)
                 }
         }
     }

@@ -25,6 +25,7 @@ class ScorigamiViewModel: ObservableObject {
     @Published var gradientType: GradientType = .frequency
     
     @Published var zoomView: Bool = false
+    @Published var scrollToCell: String = ""
         
     public struct Cell: Hashable, Identifiable {
         public var id: String

@@ -11,7 +11,8 @@ public class GameData {
     var score: String
     var occurrences: Int
     var lastGame: String
-    var saturation: Double
+    var frequencySaturation: Double
+    var recencySaturation: Double
     var gamesUrl: String
     var plural: String
     
@@ -19,7 +20,8 @@ public class GameData {
         score = ""
         occurrences = 0
         lastGame = ""
-        saturation = 0.2
+        frequencySaturation = 0.2
+        recencySaturation = 0.2
         gamesUrl = ""
         plural = "s"
     }
@@ -109,7 +111,8 @@ struct FullView: View {
                     }
                     LazyHGrid(rows: layout, spacing: 0) {
                         ForEach(row, id: \.self) { cell in
-                            let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
+                            let colorAndSat = viewModel.getColorAndSat(val:
+                                                    viewModel.gradientType == .frequency ? cell.frequencySaturation :  cell.recencySaturation)
                             Rectangle()
                                 .foregroundColor(colorAndSat.0)
                                 .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
@@ -188,14 +191,16 @@ struct ScoreCell: View {
         let row = viewModel.getGamesForLosingScore(
             losingScore: losingScore)
         ForEach(row, id: \.self) { cell in
-            let colorAndSat = viewModel.getColorAndSat(val: cell.saturation)
+            let colorAndSat = viewModel.getColorAndSat(val:
+                                    viewModel.gradientType == .frequency ? cell.frequencySaturation : cell.recencySaturation)
 
             Button(action: {
                 gameData.score = cell.label
                 gameData.occurrences = cell.occurrences
                 gameData.lastGame = cell.lastGame
                 gameData.gamesUrl = cell.gamesUrl
-                gameData.saturation = cell.saturation
+                gameData.frequencySaturation = cell.frequencySaturation
+                gameData.recencySaturation = cell.recencySaturation
                 gameData.plural = cell.plural
                 showingAlert = true
             }) {
@@ -208,7 +213,7 @@ struct ScoreCell: View {
             .frame(width: 40, height: 40)
             .background(colorAndSat.0)
             .saturation(colorAndSat.1)
-            .foregroundColor(viewModel.getTextColor(val: cell.saturation))
+            .foregroundColor(viewModel.getTextColor(val: viewModel.gradientType == .frequency ? cell.frequencySaturation : cell.recencySaturation))
             .border(cell.color, width: 0)
             .cornerRadius(0)
             .buttonStyle(BorderlessButtonStyle())
@@ -243,7 +248,6 @@ struct OptionsUI: View {
                             .frame(width: 200, height: 30)
                             .onChange(of: refreshView) { tag in
                                 viewModel.setGradientType(type: tag)
-                                viewModel.buildBoard()
                             }
                         Spacer().frame(maxWidth: .infinity, alignment: .trailing)
                     }

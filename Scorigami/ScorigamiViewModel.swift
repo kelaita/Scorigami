@@ -34,7 +34,8 @@ class ScorigamiViewModel: ObservableObject {
         var lastGame: String
         var gamesUrl: String
         var label: String
-        var saturation: Double
+        var frequencySaturation: Double
+        var recencySaturation: Double
         var plural: String
     }
     
@@ -73,7 +74,8 @@ class ScorigamiViewModel: ObservableObject {
                         lastGame: "",
                         gamesUrl: "",
                         label: String(winningScore) + "-" + String(losingScore),
-                        saturation: 0.0,
+                        frequencySaturation: 0.0,
+                        recencySaturation: 0.0,
                         plural: "s")
 
         if index != nil {
@@ -81,21 +83,18 @@ class ScorigamiViewModel: ObservableObject {
             cell.color = Color.red
             cell.lastGame = model.games[index!].lastGame
             cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
-            if gradientType == .frequency {
-                cell.saturation = getSaturation(
-                    min: 1,
-                    max: model.getMaxOccorrences(),
-                    val: cell.occurrences,
-                    skewLower: 0.01,
-                    skewUpper: 0.55)
-            } else {
-                cell.saturation = getSaturation(
-                    min: model.earliestGameYear,
-                    max: Calendar.current.component(.year, from: Date()),
-                    val: getMostRecentYear(gameDesc: cell.lastGame),
-                    skewLower: 0.0,
-                    skewUpper: 1.0)
-            }
+            cell.frequencySaturation = getSaturation(
+                min: 1,
+                max: model.getMaxOccorrences(),
+                val: cell.occurrences,
+                skewLower: 0.01,
+                skewUpper: 0.55)
+            cell.recencySaturation = getSaturation(
+                min: model.earliestGameYear,
+                max: Calendar.current.component(.year, from: Date()),
+                val: getMostRecentYear(gameDesc: cell.lastGame),
+                skewLower: 0.0,
+                skewUpper: 1.0)
             if cell.occurrences == 1 {
                 cell.plural = ""
             }

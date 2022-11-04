@@ -31,7 +31,7 @@ enum ColorMap {
   case redSpecturm, fullSpectrum
 }
 
-let scorigamiBlue = Color(red: 0.11, green: 0.26, blue: 0.344)
+let UIBackground = Color(.black)
 
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 
@@ -171,7 +171,7 @@ struct InteractiveView: View {
           
         })
       }
-      .border(scorigamiBlue, width: 4)
+      .border(UIBackground, width: 4)
       .preferredColorScheme(.dark)
       .onAppear {
         reader.scrollTo(viewModel.scrollToCell, anchor: .center)
@@ -258,7 +258,7 @@ struct OptionsUI: View {
       Spacer().frame(height: 7)
         .environmentObject(viewModel)
     }
-    .background(scorigamiBlue)
+    .background(UIBackground)
   }
 }
 
@@ -294,10 +294,14 @@ struct GradientLegend: View {
       Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40).bold()
       Button(action: viewModel.changeColorMapType ) {
         HStack{
-          Text("Full Color").bold()
+          Text("Full Color")
+            .bold()
+            .font(.system(size: 12))
+            .foregroundColor(.white)
           Image(systemName: viewModel.colorMapType == .fullSpectrum ?
                 "checkmark.square": "square")
-        }.font(.system(size: 12)).foregroundColor(.white)
+            .foregroundColor(.white)
+        }
       }.frame(maxWidth: .infinity, alignment: .trailing)
         .padding(.trailing, 2)
       Spacer()

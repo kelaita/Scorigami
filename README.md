@@ -1,4 +1,4 @@
-# scorigami
+# Scorigami
 
 Scorigami, a term originally coined by sportswriter Jon Bois, refers to the final score of an NFL game that has never occurred.
 This iOS app lets you browse every score combination and see which are Scorigamis.

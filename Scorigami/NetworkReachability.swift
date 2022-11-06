@@ -10,7 +10,7 @@ import SystemConfiguration
 
 class NetworkReachability: ObservableObject {
     @Published private(set) var reachable: Bool = false
-    private let reachability = SCNetworkReachabilityCreateWithName(nil, "www.pro-football-reference.com")
+  private let reachability = SCNetworkReachabilityCreateWithName(nil, Scorigami.sourceDomain)
 
     init() {
         self.reachable = checkConnection()

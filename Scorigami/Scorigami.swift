@@ -30,6 +30,8 @@ struct Scorigami {
     }
   }
   
+  static let sourceDomain = "www.pro-football-reference.com"
+  
   let particularScoreURL = "https://www.pro-football-reference.com/boxscores/game_scores_find.cgi?pts_win=WWWW&pts_lose=LLLL"
   let allGamesURL = "https://www.pro-football-reference.com/boxscores/game-scores.htm"
   

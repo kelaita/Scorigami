@@ -41,7 +41,6 @@ struct ContentView: View {
   
   var body: some View {
     if !networkAvailable {
-      let _ = print("PUP: 11111111 NO BUENO!!!")
       VStack {
         Image("scorigami_title")
           .resizable()

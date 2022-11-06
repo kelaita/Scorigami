@@ -37,8 +37,21 @@ private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 
 struct ContentView: View {
   @ObservedObject var viewModel: ScorigamiViewModel
+  let networkAvailable: Bool
   
   var body: some View {
+    if !networkAvailable {
+      let _ = print("PUP: 11111111 NO BUENO!!!")
+      VStack {
+        Image("scorigami_title")
+          .resizable()
+          .frame(width: 300, height: 50)
+        Spacer().frame(height: 50)
+        Button("Unfortunately, there doesn't appear\nto be an internet connection.\n\nTap here to exit and try again later.") {
+          exit(1)
+        }.foregroundColor(.white)
+      }.preferredColorScheme(.dark)
+    }
     VStack {
       HStack {
         if (viewModel.zoomView) {
@@ -112,7 +125,7 @@ struct FullView: View {
           LazyHGrid(rows: layout, spacing: 0) {
             ForEach(row, id: \.self) { cell in
               let colorAndSat = viewModel.getColorAndSat(val:
-                                                          viewModel.gradientType == .frequency ? cell.frequencySaturation :  cell.recencySaturation)
+                                    viewModel.gradientType == .frequency ? cell.frequencySaturation :  cell.recencySaturation)
               Rectangle()
                 .foregroundColor(colorAndSat.0)
                 .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
@@ -137,7 +150,6 @@ struct FullView: View {
 struct InteractiveView: View {
   @ObservedObject var viewModel: ScorigamiViewModel
   @State var gameData = GameData()
-  
   @State var showingAlert: Bool = false
   
   var body: some View {

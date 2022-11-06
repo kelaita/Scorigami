@@ -43,13 +43,20 @@ class ScorigamiViewModel: ObservableObject {
   
   init() {
     model = ScorigamiViewModel.createScorigami()
-    model.games.sort { $0.winningScore < $1.winningScore }
-    buildBoard()
-    buildColorMap()
+    if isNetworkAvailable() {
+      model.games.sort { $0.winningScore < $1.winningScore }
+      buildBoard()
+      buildColorMap()
+    }
   }
   
   static func createScorigami() -> Scorigami {
     Scorigami()
+  }
+  
+  func isNetworkAvailable() -> Bool {
+    let networkReachability = NetworkReachability()
+    return networkReachability.reachable
   }
   
   func buildBoard() {

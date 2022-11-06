@@ -24,7 +24,10 @@ struct Scorigami {
   
   init() {
     games = Array<Game>()
-    loadAllScores()
+    let networkReachability = NetworkReachability()
+    if networkReachability.reachable {
+      loadAllScores()
+    }
   }
   
   let particularScoreURL = "https://www.pro-football-reference.com/boxscores/game_scores_find.cgi?pts_win=WWWW&pts_lose=LLLL"

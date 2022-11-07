@@ -110,21 +110,28 @@ struct FullView: View {
               .font(.system(size: 10))
           }
         }
-      }.frame(width: (idiom == .pad) ? iPhoneScreenWidth * 2.22 : iPhoneScreenWidth, alignment: .leading)
+      }.frame(width: (idiom == .pad) ?
+                        iPhoneScreenWidth * 2.22 :
+                        iPhoneScreenWidth,alignment: .leading)
       Spacer().frame(width:0, height: 15)
       ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
         let row = viewModel.getGamesForLosingScore(
           losingScore: losingScore)
         HStack {
           if (losingScore % 5 == 0) {
-            Text(String(losingScore)).font(.system(size: 10)).frame(width: 18, height: 3).padding(0)
+            Text(String(losingScore))
+              .font(.system(size: 10))
+              .frame(width: 18, height: 3)
+              .padding(0)
           } else {
             Spacer().frame(width: 18)
           }
           LazyHGrid(rows: layout, spacing: 0) {
             ForEach(row, id: \.self) { cell in
               let colorAndSat = viewModel.getColorAndSat(val:
-                                    viewModel.gradientType == .frequency ? cell.frequencySaturation :  cell.recencySaturation)
+                                    viewModel.gradientType == .frequency ?
+                                          cell.frequencySaturation :
+                                          cell.recencySaturation)
               Rectangle()
                 .foregroundColor(colorAndSat.0)
                 .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
@@ -203,8 +210,9 @@ struct ScoreCell: View {
       losingScore: losingScore)
     ForEach(row, id: \.self) { cell in
       let colorAndSat = viewModel.getColorAndSat(val:
-                                                  viewModel.gradientType == .frequency ? cell.frequencySaturation : cell.recencySaturation)
-      
+                                    viewModel.gradientType == .frequency ?
+                                                 cell.frequencySaturation :
+                                                 cell.recencySaturation)
       Button(action: {
         gameData.score = cell.label
         gameData.occurrences = cell.occurrences
@@ -224,7 +232,10 @@ struct ScoreCell: View {
       .frame(width: 40, height: 40)
       .background(colorAndSat.0)
       .saturation(colorAndSat.1)
-      .foregroundColor(viewModel.getTextColor(val: viewModel.gradientType == .frequency ? cell.frequencySaturation : cell.recencySaturation))
+      .foregroundColor(viewModel.getTextColor(val:
+                          viewModel.gradientType == .frequency ?
+                                              cell.frequencySaturation :
+                                              cell.recencySaturation))
       .border(cell.color, width: 0)
       .cornerRadius(0)
       .buttonStyle(BorderlessButtonStyle())

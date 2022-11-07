@@ -75,7 +75,9 @@ class ScorigamiViewModel: ObservableObject {
       $0.winningScore == winningScore &&
       $0.losingScore == losingScore }
     
-    var cell = Cell(id: String(uniqueId) + ":" + String(winningScore) + "-" + String(losingScore),
+    var cell = Cell(id: String(uniqueId) + ":" +
+                        String(winningScore) + "-" +
+                        String(losingScore),
                     color: .black,
                     occurrences: 0,
                     lastGame: "",
@@ -89,7 +91,8 @@ class ScorigamiViewModel: ObservableObject {
       cell.occurrences = model.games[index!].occurrences
       cell.color = Color.red
       cell.lastGame = model.games[index!].lastGame
-      cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore, losingScore: losingScore)
+      cell.gamesUrl = model.getParticularScoreURL(winningScore: winningScore,
+                                                  losingScore: losingScore)
       cell.frequencySaturation = getSaturation(
         min: 1,
         max: model.getMaxOccorrences(),
@@ -137,10 +140,13 @@ class ScorigamiViewModel: ObservableObject {
                             skewLower: Double,
                             skewUpper: Double) -> Double {
     let floorSaturationPercent = skewLower
-    // the following improves the appearance by making highest intensity before the very top
+    
+    // the following improves the appearance by making
+    // highest intensity before the very top
+    //
     let newMax = Double(max - min) * skewUpper + Double(min)
     let ratio = (Double(val) - Double(min)) /
-    (newMax - Double(min))
+                (newMax - Double(min))
     let saturation = (1.0 - floorSaturationPercent) *
     ratio + floorSaturationPercent
     if saturation > 1.0 {

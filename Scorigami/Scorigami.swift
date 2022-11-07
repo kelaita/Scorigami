@@ -37,8 +37,13 @@ struct Scorigami {
   
   public func getParticularScoreURL(winningScore: Int,
                                     losingScore: Int) -> String {
-    let str = particularScoreURL.replacingOccurrences(of: "WWWW", with: String(winningScore), options: .literal, range: nil)
-    return str.replacingOccurrences(of: "LLLL", with: String(losingScore), options: .literal, range: nil)
+    let str = particularScoreURL.replacingOccurrences(of: "WWWW",
+                                                      with: String(winningScore),
+                                                      options: .literal,
+                                                      range: nil)
+    return str.replacingOccurrences(of: "LLLL", with: String(losingScore),
+                                    options: .literal,
+                                    range: nil)
   }
   
   public mutating func loadAllScores() {
@@ -94,7 +99,10 @@ struct Scorigami {
             if game.winningScore == game.losingScore {
               desc = " tied the"
             }
-            game.lastGame = game.lastGame.replacingOccurrences(of: " vs.", with: desc, options: .literal, range: nil)
+            game.lastGame = game.lastGame.replacingOccurrences(of: " vs.",
+                                                               with: desc,
+                                                               options: .literal,
+                                                               range: nil)
           }
         }
         games.append(game)

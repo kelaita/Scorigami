@@ -60,6 +60,9 @@ class ScorigamiViewModel: ObservableObject {
   }
   
   func buildBoard() {
+    // clear out the board and rebuild it; this is only done once at
+    // initialization, but it can be called repeatedly, that's just slow
+    //
     board = []
     for row in 0...getHighestWinningScore() {
       board.append([Cell]())
@@ -75,6 +78,10 @@ class ScorigamiViewModel: ObservableObject {
       $0.winningScore == winningScore &&
       $0.losingScore == losingScore }
     
+    // for a particular score, build a cell for it; include a unique-id
+    // which is simply the score preceded by an ever-incrementing int
+    // that will ensure uniqueness across redraws
+    //
     var cell = Cell(id: String(uniqueId) + ":" +
                         String(winningScore) + "-" +
                         String(losingScore),
@@ -156,6 +163,10 @@ class ScorigamiViewModel: ObservableObject {
   }
   
   public func fixScrollCell(cell: String) -> String {
+    // this basically takes a score in W-L format and returns u:W-L
+    // where 'u' is an increasing int that gives it uniqueness;
+    // also check for invalid score where L > W
+    //
     let id_scores = cell.components(separatedBy: ":")
     let id = id_scores[0]
     let scores = id_scores[1].components(separatedBy: "-")
@@ -168,6 +179,8 @@ class ScorigamiViewModel: ObservableObject {
   }
   
   public func getMinMaxes() -> Array<String> {
+    // used for the color map legend
+    //
     if (gradientType == .frequency) {
       return ["1", String(model.highestCounter)]
     }
@@ -213,14 +226,16 @@ class ScorigamiViewModel: ObservableObject {
   }
   
   public func getColorAndSat(val: Double) -> (Color, Double) {
+    // return the proper color and saturation based on gradient type,
+    // full color status, and whether scorigami or not (black)
+    //
     if val == 0.0 {
       return (Color.black, 1.0)
     }
     if colorMapType == .redSpecturm {
       return (Color.red, val)
-    } else {
-      
     }
+
     var index: Int = Int(val * 100.0)
     
     if index > 99 {
@@ -231,7 +246,6 @@ class ScorigamiViewModel: ObservableObject {
     var b: Double
     (r, g, b) = colorMap[index]
     return (Color(red: r, green: g, blue: b), 1.0)
-    
   }
   
   public func getTextColor(val: Double) -> Color {

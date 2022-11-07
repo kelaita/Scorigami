@@ -41,19 +41,16 @@ struct ContentView: View {
   
   var body: some View {
     if !networkAvailable {
-      VStack {
-        Image("scorigami_title")
-          .resizable()
-          .frame(width: 300, height: 50)
-        Spacer().frame(height: 50)
-        Button("Unfortunately, there doesn't appear\nto be an internet connection.\n\nTap here to exit and try again later.") {
-          exit(1)
-        }.foregroundColor(.white)
-      }.preferredColorScheme(.dark)
+      // if no network, put up a screen with exit as the only option;
+      // no else needed since we're exiting here
+      //
+      NetworkFailureExitView()
     }
     VStack {
       HStack {
         if (viewModel.zoomView) {
+          // if we're in zoom view, add a back button to Full View
+          //
           Button(action: {
             viewModel.toggleZoomView()
           }) {
@@ -86,6 +83,20 @@ struct ContentView: View {
   }
 }
 
+struct NetworkFailureExitView: View {
+  var body: some View {
+    VStack {
+      Image("scorigami_title")
+        .resizable()
+        .frame(width: 300, height: 50)
+      Spacer().frame(height: 50)
+      Button("Unfortunately, there doesn't appear\nto be an internet connection.\n\nTap here to exit and try again later.") {
+        exit(1)
+      }.foregroundColor(.white)
+    }.preferredColorScheme(.dark)
+  }
+}
+
 struct FullView: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
@@ -99,6 +110,8 @@ struct FullView: View {
                spacing: 0)
     ]
     VStack(spacing: 0) {
+      // add the winning score labels across the top (x axis) by 5's.
+      //
       Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
         .font(.system(size: 12)).bold()
       HStack {
@@ -114,6 +127,10 @@ struct FullView: View {
                         iPhoneScreenWidth * 2.22 :
                         iPhoneScreenWidth,alignment: .leading)
       Spacer().frame(width:0, height: 15)
+      
+      // the "losing scores" are the rows; just put a small rectangle for
+      // each score cell - can't interact with it, only shows color val
+      //
       ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
         let row = viewModel.getGamesForLosingScore(
           losingScore: losingScore)
@@ -206,6 +223,10 @@ struct ScoreCell: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
   var body: some View {
+    // again, each row is for a losing score; unlike in full view, these
+    // cells will be interactive with score labels and clickable for
+    // drilldown info
+    //
     let row = viewModel.getGamesForLosingScore(
       losingScore: losingScore)
     ForEach(row, id: \.self) { cell in
@@ -213,6 +234,9 @@ struct ScoreCell: View {
                                     viewModel.gradientType == .frequency ?
                                                  cell.frequencySaturation :
                                                  cell.recencySaturation)
+      // we need an "id" for each cell because that is how we will
+      // locate a cell and center it in the scrollview
+      //
       Button(action: {
         gameData.score = cell.label
         gameData.occurrences = cell.occurrences
@@ -250,6 +274,8 @@ struct OptionsUI: View {
   
   @State var refreshView = 0
   
+  // place all the UI options at the bottom
+  //
   var body: some View {
     VStack(spacing: 4) {
       Spacer().frame(height: 20)
@@ -287,6 +313,9 @@ struct OptionsUI: View {
 struct GradientLegend: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
+  // the legend reflects frequency or recency and includes min/max values;
+  // it also has two different color ramp options
+  //
   var body: some View {
     let minMaxes = viewModel.getMinMaxes()
     let colorSlices = 42
@@ -313,6 +342,8 @@ struct GradientLegend: View {
             .frame(width: CGFloat(colorSlices) * 4.0, height: 20)
         }
       }
+      // add the min and max for the legend
+      //
       Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40).bold()
       Button(action: viewModel.changeColorMapType ) {
         HStack{

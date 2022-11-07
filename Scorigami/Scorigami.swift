@@ -47,6 +47,9 @@ struct Scorigami {
   }
   
   public mutating func loadAllScores() {
+    // grab the web page that has a list of all scores that have occured;
+    // we will pass the raw HTML to a parsing function
+    //
     let url = URL(string: allGamesURL)!
     let (data, _, _) = URLSession.shared.synchronousDataTask(with: url)
     guard let data = data else { return }
@@ -55,6 +58,11 @@ struct Scorigami {
   
   mutating func parseAllScores(html: String) {
     do {
+      // let's use SwiftSoup to pull just the interesting table out
+      // of the page; we will then use Regex to grab the info we need;
+      // yes, this is klugey, but the site provides no API;
+      // yes, this could break if they change their HTML formatting
+      //
       let doc: Document = try SwiftSoup.parse(html)
       let rows: Array = try doc.select("tbody tr").array()
       for row in rows {

@@ -4,7 +4,8 @@
 //
 //  Created by Paul Kelaita on 10/21/22.
 //
-//  from Nick Keets on StackOverflow
+//  from Nick Keets from StackOverflow
+//
 
 import Foundation
 
@@ -13,6 +14,7 @@ extension URLSession {
     var data: Data?
     var response: URLResponse?
     var error: Error?
+    
     let semaphore = DispatchSemaphore(value: 0)
     
     let dataTask = self.dataTask(with: url) {

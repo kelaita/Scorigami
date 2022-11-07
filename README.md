@@ -7,4 +7,5 @@ For those final scores that have occurred, you can see how many games ended in t
 You can also see detailed information of every game score!
 
 Thank you to pro-football-reference.com who provided all the historical data.
+
 Scorigami is a work-in-progress app that was created in order to learn iOS app development with SwiftUI. Would love to get some feedback

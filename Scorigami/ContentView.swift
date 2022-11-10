@@ -49,7 +49,7 @@ struct ContentView: View {
     VStack {
       TopOptions()
       if (viewModel.zoomView) {
-        InteractiveView(viewModel: viewModel).environmentObject(viewModel)
+        InteractiveView()
       } else {
         FullView()
       }
@@ -190,7 +190,7 @@ struct LosingScoreRow: View {
 }
 
 struct InteractiveView: View {
-  @ObservedObject var viewModel: ScorigamiViewModel
+  @EnvironmentObject var viewModel: ScorigamiViewModel
   @State var gameData = GameData()
   @State var showingAlert: Bool = false
   
@@ -203,27 +203,27 @@ struct InteractiveView: View {
               ScoreCell(losingScore: losingScore,
                         showingAlert: $showingAlert,
                         gameData: $gameData)
+              .alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
+                if gameData.occurrences > 0 {
+                  Button("Done", role: .cancel, action: {})
+                  Link("View games", destination: URL(string: gameData.gamesUrl)!)
+                }
+              }, message: {
+                if gameData.occurrences > 0 {
+                  Text("\nA game has ended with this score\n") +
+                  Text(String(gameData.occurrences)) +
+                  Text(" time") +
+                  Text(gameData.plural) +
+                  Text(".\n\nMost recently, this happened when the\n") +
+                  Text(gameData.lastGame)
+                } else {
+                  Text("\nSCORIGAMI!\n\n") +
+                  Text("No game has ever ended\nwith this score...yet!")
+                }
+              })
             }
           }
-        }.alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
-          if gameData.occurrences > 0 {
-            Button("Done", role: .cancel, action: {})
-            Link("View games", destination: URL(string: gameData.gamesUrl)!)
-          }
-        }, message: {
-          if gameData.occurrences > 0 {
-            Text("\nA game has ended with this score\n") +
-            Text(String(gameData.occurrences)) +
-            Text(" time") +
-            Text(gameData.plural) +
-            Text(".\n\nMost recently, this happened when the\n") +
-            Text(gameData.lastGame)
-          } else {
-            Text("\nSCORIGAMI!\n\n") +
-            Text("No game has ever ended\nwith this score...yet!")
-          }
-          
-        })
+        }
       }
       .border(UIBackground, width: 4)
       .preferredColorScheme(.dark)

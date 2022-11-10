@@ -254,7 +254,14 @@ class ScorigamiViewModel: ObservableObject {
     return (Color(red: r, green: g, blue: b), 1.0)
   }
   
-  public func getTextColor(val: Double) -> Color {
+  public func getTextColor(cell: Cell) -> Color {
+    var val: Double
+    if gradientType == .frequency {
+      val = cell.frequencySaturation
+    } else {
+      val = cell.recencySaturation
+    }
+    
     if val < 0.2 || val > 0.8 ||
         colorMapType == .redSpecturm {
       return Color.white

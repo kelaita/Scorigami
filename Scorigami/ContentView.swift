@@ -7,26 +7,6 @@
 
 import SwiftUI
 
-public class GameData {
-  var score: String
-  var occurrences: Int
-  var lastGame: String
-  var frequencySaturation: Double
-  var recencySaturation: Double
-  var gamesUrl: String
-  var plural: String
-  
-  init() {
-    score = ""
-    occurrences = 0
-    lastGame = ""
-    frequencySaturation = 0.2
-    recencySaturation = 0.2
-    gamesUrl = ""
-    plural = "s"
-  }
-}
-
 private let UIBackground = Color(.black)
 
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
@@ -191,8 +171,6 @@ struct LosingScoreRow: View {
 
 struct InteractiveView: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
-  @State var gameData = GameData()
-  @State var showingAlert: Bool = false
   
   var body: some View {
     ScrollViewReader { reader in
@@ -200,27 +178,7 @@ struct InteractiveView: View {
         VStack {
           ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
             LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
-              ScoreCell(losingScore: losingScore,
-                        showingAlert: $showingAlert,
-                        gameData: $gameData)
-              .alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
-                if gameData.occurrences > 0 {
-                  Button("Done", role: .cancel, action: {})
-                  Link("View games", destination: URL(string: gameData.gamesUrl)!)
-                }
-              }, message: {
-                if gameData.occurrences > 0 {
-                  Text("\nA game has ended with this score\n") +
-                  Text(String(gameData.occurrences)) +
-                  Text(" time") +
-                  Text(gameData.plural) +
-                  Text(".\n\nMost recently, this happened when the\n") +
-                  Text(gameData.lastGame)
-                } else {
-                  Text("\nSCORIGAMI!\n\n") +
-                  Text("No game has ever ended\nwith this score...yet!")
-                }
-              })
+              ScoreCells(losingScore: losingScore)
             }
           }
         }
@@ -234,10 +192,14 @@ struct InteractiveView: View {
   }
 }
 
-struct ScoreCell: View {
+struct ScoreCells: View {
   let losingScore: Int
-  @Binding var showingAlert: Bool
-  @Binding var gameData: GameData
+  @State var showingAlert: Bool = false
+  @State var score: String = ""
+  @State var occurrences: Int = 0
+  @State var gamesUrl: String = ""
+  @State var lastGame: String = ""
+  @State var plural: String = ""
   
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
@@ -246,21 +208,18 @@ struct ScoreCell: View {
     // cells will be interactive with score labels and clickable for
     // drilldown info
     //
-    let row = viewModel.getGamesForLosingScore(
-      losingScore: losingScore)
+    let row = viewModel.getGamesForLosingScore(losingScore: losingScore)
     ForEach(row, id: \.self) { cell in
       let colorAndSat = viewModel.getColorAndSat(cell: cell)
       // we need an "id" for each cell because that is how we will
       // locate a cell and center it in the scrollview
       //
       Button(action: {
-        gameData.score = cell.label
-        gameData.occurrences = cell.occurrences
-        gameData.lastGame = cell.lastGame
-        gameData.gamesUrl = cell.gamesUrl
-        gameData.frequencySaturation = cell.frequencySaturation
-        gameData.recencySaturation = cell.recencySaturation
-        gameData.plural = cell.plural
+        score = cell.label
+        occurrences = cell.occurrences
+        gamesUrl = cell.gamesUrl
+        lastGame = cell.lastGame
+        plural = cell.plural
         showingAlert = true
       }) {
         Text(cell.label)
@@ -268,18 +227,32 @@ struct ScoreCell: View {
             .weight(.bold))
           .underline(color: colorAndSat.0)
       }
-      .padding(0)
       .frame(width: 40, height: 40)
       .background(colorAndSat.0)
       .saturation(colorAndSat.1)
-      .foregroundColor(viewModel.getTextColor(val:
-                          viewModel.gradientType == .frequency ?
-                                              cell.frequencySaturation :
-                                              cell.recencySaturation))
+      .foregroundColor(viewModel.getTextColor(cell: cell))
       .border(cell.color, width: 0)
-      .cornerRadius(0)
+      .cornerRadius(4)
       .buttonStyle(BorderlessButtonStyle())
       .id(cell.id)
+      .alert("Game Score: " + score, isPresented: $showingAlert, actions: {
+        if occurrences > 0 {
+          Button("Done", role: .cancel, action: {})
+          Link("View games", destination: URL(string: gamesUrl)!)
+        }
+      }, message: {
+        if occurrences > 0 {
+          Text("\nA game has ended with this score\n") +
+          Text(String(occurrences)) +
+          Text(" time") +
+          Text(plural) +
+          Text(".\n\nMost recently, this happened when the\n") +
+          Text(lastGame)
+        } else {
+          Text("\nSCORIGAMI!\n\n") +
+          Text("No game has ever ended\nwith this score...yet!")
+        }
+      })
     }
     
   }
@@ -359,7 +332,7 @@ struct GradientLegend: View {
             .frame(width: CGFloat(colorSlices) * 4.0, height: 20)
         }
       }
-      // add the min and max for the legend
+      // add the max for the legend, then the color map type button
       //
       Text(minMaxes[1]).font(.system(size: 12)).frame(width: 40).bold()
       Button(action: viewModel.changeColorMapType ) {

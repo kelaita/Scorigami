@@ -31,6 +31,10 @@ private let UIBackground = Color(.black)
 
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 
+let iPhoneCellHeight: CGFloat = 8.0
+let iPhoneCellWidth: CGFloat = 4.5
+let iPhoneScreenWidth: CGFloat = 333
+
 struct ContentView: View {
   @ObservedObject var viewModel: ScorigamiViewModel
   let networkAvailable: Bool
@@ -43,31 +47,14 @@ struct ContentView: View {
       NetworkFailureExitView()
     }
     VStack {
-      HStack {
-        if (viewModel.zoomView) {
-          // if we're in zoom view, add a back button to Full View
-          //
-          Button(action: {
-            viewModel.toggleZoomView()
-          }) {
-            Image(systemName: "arrowshape.turn.up.backward.fill")
-              .imageScale(.large)
-          }
-        }
-        Spacer()
-        NavigationLink(destination: AboutView()) {
-          Image(systemName: "info.circle.fill").imageScale(.large)
-        }
-        Spacer().frame(width: 0, height: 40)
-      }
-      
+      TopOptions()
       if (viewModel.zoomView) {
         InteractiveView(viewModel: viewModel).environmentObject(viewModel)
       } else {
-        FullView().environmentObject(viewModel)
+        FullView()
       }
       Spacer()
-      OptionsUI().environmentObject(viewModel).frame(maxWidth: .infinity, alignment: .trailing)
+      OptionsUI()
     }.navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -93,44 +80,46 @@ struct NetworkFailureExitView: View {
   }
 }
 
+struct TopOptions: View {
+  @EnvironmentObject var viewModel: ScorigamiViewModel
+  var body: some View {
+    HStack {
+      if (viewModel.zoomView) {
+        // if we're in zoom view, add a back button to Full View
+        //
+        Button(action: {
+          viewModel.toggleZoomView()
+        }) {
+          Image(systemName: "arrowshape.turn.up.backward.fill")
+            .imageScale(.large)
+        }
+      }
+      Spacer()
+      NavigationLink(destination: AboutView()) {
+        Image(systemName: "info.circle.fill").imageScale(.large)
+      }
+      Spacer().frame(width: 0, height: 40)
+    }
+  }
+}
+
 struct FullView: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
-  let iPhoneCellHeight: CGFloat = 8.0
-  let iPhoneCellWidth: CGFloat = 4.5
-  let iPhoneScreenWidth: CGFloat = 333
-  
   var body: some View {
-    let layout = [
-      GridItem(.fixed((idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight),
-               spacing: 0)
-    ]
     VStack(spacing: 0) {
       // add the winning score labels across the top (x axis) by 5's.
       //
-      Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
-        .font(.system(size: 12)).bold()
-      HStack {
-        let maxScoreLabel = viewModel.getHighestWinningScore() / 10 * 10
-        ForEach(0...maxScoreLabel, id: \.self) { val in
-          if val % 5 == 0 {
-            Text(String(val))
-              .frame(maxWidth: .infinity, alignment: .leading)
-              .font(.system(size: 10))
-          }
-        }
-      }.frame(width: (idiom == .pad) ?
-                        iPhoneScreenWidth * 2.22 :
-                        iPhoneScreenWidth,alignment: .leading)
+      WinningScoreLabels()
       Spacer().frame(width:0, height: 15)
       
       // the "losing scores" are the rows; just put a small rectangle for
       // each score cell - can't interact with it, only shows color val
       //
       ForEach(0...viewModel.getHighestLosingScore(), id: \.self) { losingScore in
-        let row = viewModel.getGamesForLosingScore(
-          losingScore: losingScore)
         HStack {
+          // put up the Losing score label down the y-axis if in that multipe
+          //
           if (losingScore % 5 == 0) {
             Text(String(losingScore))
               .font(.system(size: 10))
@@ -139,30 +128,64 @@ struct FullView: View {
           } else {
             Spacer().frame(width: 18)
           }
-          LazyHGrid(rows: layout, spacing: 0) {
-            ForEach(row, id: \.self) { cell in
-              let colorAndSat = viewModel.getColorAndSat(val:
-                                    viewModel.gradientType == .frequency ?
-                                          cell.frequencySaturation :
-                                          cell.recencySaturation)
-              Rectangle()
-                .foregroundColor(colorAndSat.0)
-                .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
-                       height:(idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight)
-                .saturation(colorAndSat.1)
-                .padding(0)
-                .onTapGesture {
-                  let _ = print("Clicked score: \(cell.label)")
-                  if cell.label != "" {
-                    viewModel.scrollToCell = cell.id
-                    viewModel.toggleZoomView()
-                  }
-                }
-            }
-          }.padding(0).frame(maxWidth: .infinity)
+          let row = viewModel.getGamesForLosingScore(losingScore: losingScore)
+          // now render that row
+          //
+          LosingScoreRow(row: row)
         }
       }
     }.preferredColorScheme(.dark)
+  }
+}
+
+struct WinningScoreLabels: View {
+  @EnvironmentObject var viewModel: ScorigamiViewModel
+
+  var body: some View {
+    Text("Winning Score").frame(maxWidth: .infinity, alignment: .center)
+      .font(.system(size: 12)).bold()
+    HStack {
+      let maxScoreLabel = viewModel.getHighestWinningScore() / 10 * 10
+      ForEach(0...maxScoreLabel, id: \.self) { val in
+        if val % 5 == 0 {
+          Text(String(val))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .font(.system(size: 10))
+        }
+      }
+    }.frame(width: (idiom == .pad) ?
+            iPhoneScreenWidth * 2.22 :
+              iPhoneScreenWidth,alignment: .leading)
+  }
+}
+
+struct LosingScoreRow: View {
+  let row: Array<ScorigamiViewModel.Cell>
+  @EnvironmentObject var viewModel: ScorigamiViewModel
+  
+  let layout = [
+    GridItem(.fixed((idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight),
+             spacing: 0)
+  ]
+  var body: some View {
+    LazyHGrid(rows: layout, spacing: 0) {
+      ForEach(row, id: \.self) { cell in
+        let colorAndSat = viewModel.getColorAndSat(cell: cell)
+        Rectangle()
+          .foregroundColor(colorAndSat.0)
+          .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
+                 height:(idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight)
+          .saturation(colorAndSat.1)
+          .padding(0)
+          .onTapGesture {
+            let _ = print("Clicked score: \(cell.label)")
+            if cell.label != "" {
+              viewModel.scrollToCell = cell.id
+              viewModel.toggleZoomView()
+            }
+          }
+      }
+    }.padding(0).frame(maxWidth: .infinity)
   }
 }
 
@@ -179,7 +202,7 @@ struct InteractiveView: View {
             LazyHGrid(rows: [GridItem(.adaptive(minimum: 20), spacing: 2)]) {
               ScoreCell(losingScore: losingScore,
                         showingAlert: $showingAlert,
-                        gameData: $gameData).environmentObject(viewModel)
+                        gameData: $gameData)
             }
           }
         }.alert("Game Score: " + gameData.score, isPresented: $showingAlert, actions: {
@@ -226,10 +249,7 @@ struct ScoreCell: View {
     let row = viewModel.getGamesForLosingScore(
       losingScore: losingScore)
     ForEach(row, id: \.self) { cell in
-      let colorAndSat = viewModel.getColorAndSat(val:
-                                    viewModel.gradientType == .frequency ?
-                                                 cell.frequencySaturation :
-                                                 cell.recencySaturation)
+      let colorAndSat = viewModel.getColorAndSat(cell: cell)
       // we need an "id" for each cell because that is how we will
       // locate a cell and center it in the scrollview
       //
@@ -303,6 +323,7 @@ struct OptionsUI: View {
         .environmentObject(viewModel)
     }
     .background(UIBackground)
+    .frame(maxWidth: .infinity, alignment: .trailing)
   }
 }
 

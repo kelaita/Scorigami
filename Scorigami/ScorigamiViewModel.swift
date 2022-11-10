@@ -120,7 +120,6 @@ class ScorigamiViewModel: ObservableObject {
     if winningScore < losingScore {
       cell.label = ""
     }
-    
     return cell
   }
   
@@ -225,10 +224,17 @@ class ScorigamiViewModel: ObservableObject {
     }
   }
   
-  public func getColorAndSat(val: Double) -> (Color, Double) {
+  public func getColorAndSat(cell: Cell) -> (Color, Double) {
     // return the proper color and saturation based on gradient type,
     // full color status, and whether scorigami or not (black)
     //
+    var val: Double
+    
+    if gradientType == .frequency {
+      val = cell.frequencySaturation
+    } else {
+      val = cell.recencySaturation
+    }
     if val == 0.0 {
       return (Color.black, 1.0)
     }

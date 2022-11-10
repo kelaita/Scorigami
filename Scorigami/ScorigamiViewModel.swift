@@ -9,7 +9,7 @@ import SwiftUI
 
 class ScorigamiViewModel: ObservableObject {
   
-  @Published var model: Scorigami
+  var model: Scorigami
   
   var uniqueId = 0
   var colorMap: [(r: Double, g: Double, b: Double)] = []
@@ -25,7 +25,7 @@ class ScorigamiViewModel: ObservableObject {
   @Published var gradientType: GradientType = .frequency
   
   @Published var zoomView: Bool = false
-  @Published var scrollToCell: String = ""
+  var scrollToCell: String = ""
   
   public struct Cell: Hashable, Identifiable {
     public var id: String
@@ -39,7 +39,7 @@ class ScorigamiViewModel: ObservableObject {
     var plural: String
   }
   
-  @Published public var board: [[Cell]] = []
+  private var board: [[Cell]] = []
   
   init() {
     model = ScorigamiViewModel.createScorigami()

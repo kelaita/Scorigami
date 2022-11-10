@@ -27,11 +27,7 @@ public class GameData {
   }
 }
 
-enum ColorMap {
-  case redSpecturm, fullSpectrum
-}
-
-let UIBackground = Color(.black)
+private let UIBackground = Color(.black)
 
 private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
 

@@ -31,7 +31,7 @@ struct ContentView: View {
       if (viewModel.zoomView) {
         InteractiveView()
       } else {
-        FullView()
+        FullView().transition(.scale)
       }
       Spacer()
       OptionsUI()
@@ -68,7 +68,9 @@ struct TopOptions: View {
         // if we're in zoom view, add a back button to Full View
         //
         Button(action: {
-          viewModel.toggleZoomView()
+          withAnimation {
+            viewModel.toggleZoomView()
+          }
         }) {
           Image(systemName: "arrowshape.turn.up.backward.fill")
             .imageScale(.large)
@@ -161,9 +163,12 @@ struct LosingScoreRow: View {
             let _ = print("Clicked score: \(cell.label)")
             if cell.label != "" {
               viewModel.scrollToCell = cell.id
-              viewModel.toggleZoomView()
+              withAnimation {
+                viewModel.toggleZoomView()
+              }
             }
           }
+          .transition(.scale)
       }
     }.padding(0).frame(maxWidth: .infinity)
   }

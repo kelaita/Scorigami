@@ -12,25 +12,28 @@ let iPhoneCellWidth: CGFloat = 4.5
 let iPhoneScreenWidth: CGFloat = 333
 
 struct ContentView: View {
-  @ObservedObject var viewModel: ScorigamiViewModel
-  let networkAvailable: Bool
+  
+  @StateObject var viewModel: ScorigamiViewModel  = ScorigamiViewModel()
   
   var body: some View {
-    if !networkAvailable {
+    if !viewModel.isNetworkAvailable() {
       // if no network, put up a screen with exit as the only option;
       // no else needed since we're exiting here
       //
       NetworkFailureExitView()
     }
     VStack {
-      TopOptions()
+      TopOptions().environmentObject(viewModel)
       if (viewModel.zoomView) {
         InteractiveView()
+          .environmentObject(viewModel)
       } else {
-        OverallView().transition(.scale)
+        OverallView()
+          .transition(.scale)
+          .environmentObject(viewModel)
       }
       Spacer()
-      OptionsUI()
+      OptionsUI().environmentObject(viewModel)
     }.navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {

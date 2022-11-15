@@ -20,6 +20,9 @@
 		DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */; };
 		DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7AA2903762D00982476 /* URLSession+sync.swift */; };
 		DAA811992917306400F60D0D /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA811982917306400F60D0D /* NetworkReachability.swift */; };
+		DAC9AA5B2923F09C003C5678 /* NetworkFailureExitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9AA5A2923F09C003C5678 /* NetworkFailureExitView.swift */; };
+		DAC9AA5D2923F191003C5678 /* OverallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9AA5C2923F191003C5678 /* OverallView.swift */; };
+		DAC9AA5F2923F226003C5678 /* InteractiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9AA5E2923F226003C5678 /* InteractiveView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +59,9 @@
 		DA80A7AA2903762D00982476 /* URLSession+sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+sync.swift"; sourceTree = "<group>"; };
 		DAA81193291486E100F60D0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAA811982917306400F60D0D /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
+		DAC9AA5A2923F09C003C5678 /* NetworkFailureExitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFailureExitView.swift; sourceTree = "<group>"; };
+		DAC9AA5C2923F191003C5678 /* OverallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverallView.swift; sourceTree = "<group>"; };
+		DAC9AA5E2923F226003C5678 /* InteractiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,13 +114,11 @@
 			isa = PBXGroup;
 			children = (
 				DAA81193291486E100F60D0D /* Info.plist */,
-				DA80A7AA2903762D00982476 /* URLSession+sync.swift */,
-				DAA811982917306400F60D0D /* NetworkReachability.swift */,
+				DAC9AA572923EEE0003C5678 /* Models */,
+				DAC9AA552923EEAF003C5678 /* Views */,
+				DAC9AA562923EEC3003C5678 /* ViewModels */,
+				DAC9AA542923EE7D003C5678 /* Utils */,
 				DA80A7792900A33100982476 /* ScorigamiApp.swift */,
-				DA0FB3B0290EE09E00014FCE /* AboutView.swift */,
-				DA80A77B2900A33100982476 /* ContentView.swift */,
-				DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */,
-				DA80A7A62900A73D00982476 /* Scorigami.swift */,
 				DA80A77D2900A33300982476 /* Assets.xcassets */,
 				DA80A77F2900A33300982476 /* Preview Content */,
 			);
@@ -144,6 +148,43 @@
 				DA80A7962900A33400982476 /* ScorigamiUITestsLaunchTests.swift */,
 			);
 			path = ScorigamiUITests;
+			sourceTree = "<group>";
+		};
+		DAC9AA542923EE7D003C5678 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DAA811982917306400F60D0D /* NetworkReachability.swift */,
+				DA80A7AA2903762D00982476 /* URLSession+sync.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		DAC9AA552923EEAF003C5678 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DAC9AA5E2923F226003C5678 /* InteractiveView.swift */,
+				DA0FB3B0290EE09E00014FCE /* AboutView.swift */,
+				DA80A77B2900A33100982476 /* ContentView.swift */,
+				DAC9AA5C2923F191003C5678 /* OverallView.swift */,
+				DAC9AA5A2923F09C003C5678 /* NetworkFailureExitView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		DAC9AA562923EEC3003C5678 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DAC9AA572923EEE0003C5678 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DA80A7A62900A73D00982476 /* Scorigami.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,11 +324,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA80A77C2900A33100982476 /* ContentView.swift in Sources */,
+				DAC9AA5F2923F226003C5678 /* InteractiveView.swift in Sources */,
 				DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */,
 				DAA811992917306400F60D0D /* NetworkReachability.swift in Sources */,
 				DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */,
 				DA80A77A2900A33100982476 /* ScorigamiApp.swift in Sources */,
 				DA0FB3B1290EE09E00014FCE /* AboutView.swift in Sources */,
+				DAC9AA5B2923F09C003C5678 /* NetworkFailureExitView.swift in Sources */,
+				DAC9AA5D2923F191003C5678 /* OverallView.swift in Sources */,
 				DA80A7A72900A73D00982476 /* Scorigami.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

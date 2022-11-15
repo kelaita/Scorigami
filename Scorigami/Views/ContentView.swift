@@ -23,7 +23,7 @@ struct ContentView: View {
       NetworkFailureExitView()
     }
     VStack {
-      TopOptions().environmentObject(viewModel)
+      NavOptions().environmentObject(viewModel)
       if (viewModel.zoomView) {
         InteractiveView()
           .environmentObject(viewModel)
@@ -33,7 +33,7 @@ struct ContentView: View {
           .environmentObject(viewModel)
       }
       Spacer()
-      OptionsUI().environmentObject(viewModel)
+      UIOptions().environmentObject(viewModel)
     }.navigationBarTitleDisplayMode(.inline)
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -45,7 +45,7 @@ struct ContentView: View {
   }
 }
 
-struct TopOptions: View {
+struct NavOptions: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   var body: some View {
     HStack {
@@ -70,7 +70,7 @@ struct TopOptions: View {
   }
 }
 
-struct OptionsUI: View {
+struct UIOptions: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
   @State var refreshView = 0

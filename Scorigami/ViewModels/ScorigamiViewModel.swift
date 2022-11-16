@@ -39,6 +39,14 @@ class ScorigamiViewModel: ObservableObject {
     var plural: String
   }
   
+  public struct GroupedGame: Hashable {
+    var color: Color?
+    var saturation: Double?
+    var numScores: Int?
+    var label: String?
+    var scrollID: String?
+  }
+  
   private var board: [[Cell]] = []
   
   init() {
@@ -133,6 +141,60 @@ class ScorigamiViewModel: ObservableObject {
   
   public func getGamesForLosingScore(losingScore: Int) -> Array<Cell> {
     return board[losingScore]
+  }
+  
+  public func getGroupedGamesForLosingScore(losingScore: Int) -> Array<GroupedGame> {
+    let games: [Cell] = board[losingScore]
+    var lastColor = Color.white
+    var lastSaturation = 0.0
+    var groupSize = 0
+    var groupedGames: [GroupedGame] = []
+    let maxSize = 25
+    for i in 0..<games.count {
+      let colorAndSat = getColorAndSat(cell: games[i])
+      let color: Color = colorAndSat.0
+      let saturation: Double = colorAndSat.1
+      // in the first case, set as the initial "last" since there is no other
+      //
+      if (i == 0) {
+        lastColor = color
+        lastSaturation = saturation
+        groupSize = 1
+        continue
+      }
+      // else check to see if we can group these - if so, continue on;
+      // maxSize is there so we don't make them too long and screw up
+      // the onClick location too far
+      //
+      if ((color == lastColor) &&
+          (saturation == lastSaturation) &&
+          (groupSize <= maxSize)) {
+        groupSize += 1
+      } else {
+        // we can't group this with previous ones (if any),
+        // so write out the last one we saved
+        //
+        let group = GroupedGame(color: lastColor,
+                                saturation: lastSaturation,
+                                numScores: groupSize,
+                                label: games[i].label,
+                                scrollID: games[i].id)
+        groupedGames.append(group)
+        lastColor = color
+        lastSaturation = saturation
+        groupSize = 1
+      }
+    }
+    // we're through the array, but guaranteed to have at least one game
+    // left in the pipeline, so add that too
+    //
+    let group = GroupedGame(color: lastColor,
+                            saturation: lastSaturation,
+                            numScores: groupSize,
+                            label: games.last?.label,
+                            scrollID: games.last?.id)
+    groupedGames.append(group)
+    return groupedGames
   }
   
   public func getMostRecentYear(gameDesc: String) -> Int {

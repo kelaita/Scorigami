@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-private var idiom : UIUserInterfaceIdiom { UIDevice.current.userInterfaceIdiom }
-
 struct OverallView: View {
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
@@ -34,7 +32,7 @@ struct OverallView: View {
           } else {
             Spacer().frame(width: 18)
           }
-          let row = viewModel.getGamesForLosingScore(losingScore: losingScore)
+          let row = viewModel.getGroupedGamesForLosingScore(losingScore: losingScore)
           // now render that row
           //
           LosingScoreRow(row: row)
@@ -59,34 +57,30 @@ struct WinningScoreLabels: View {
             .font(.system(size: 10))
         }
       }
-    }.frame(width: (idiom == .pad) ?
-            iPhoneScreenWidth * 2.22 :
-              iPhoneScreenWidth,alignment: .leading)
+    }.frame(width: Devices.getDisplayWidth(), alignment: .leading)
   }
 }
 
 struct LosingScoreRow: View {
-  let row: Array<ScorigamiViewModel.Cell>
+  let row: Array<ScorigamiViewModel.GroupedGame>
   @EnvironmentObject var viewModel: ScorigamiViewModel
   
   let layout = [
-    GridItem(.fixed((idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight),
-             spacing: 0)
+    GridItem(.fixed(Devices.getFrameHeight()), spacing: 0)
   ]
   var body: some View {
     LazyHGrid(rows: layout, spacing: 0) {
-      ForEach(row, id: \.self) { cell in
-        let colorAndSat = viewModel.getColorAndSat(cell: cell)
+      ForEach(row, id: \.self) { groupedCell in
         Rectangle()
-          .foregroundColor(colorAndSat.0)
-          .frame(width: (idiom == .pad) ? iPhoneCellWidth * 2.5 : iPhoneCellWidth,
-                 height:(idiom == .pad) ? iPhoneCellHeight * 2 : iPhoneCellHeight)
-          .saturation(colorAndSat.1)
+          .foregroundColor(groupedCell.color)
+          .frame(width: Devices.getFrameWidth() * CGFloat(groupedCell.numScores!),
+                 height: Devices.getFrameHeight())
+          .saturation(groupedCell.saturation!)
           .padding(0)
           .onTapGesture {
-            let _ = print("Clicked score: \(cell.label)")
-            if cell.label != "" {
-              viewModel.scrollToCell = cell.id
+            let _ = print("Clicked score: \(String(describing: groupedCell.label))")
+            if groupedCell.label != "" {
+              viewModel.scrollToCell = groupedCell.scrollID!
               withAnimation {
                 viewModel.toggleZoomView()
               }

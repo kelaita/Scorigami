@@ -19,6 +19,7 @@
 		DA80A7A72900A73D00982476 /* Scorigami.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7A62900A73D00982476 /* Scorigami.swift */; };
 		DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */; };
 		DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80A7AA2903762D00982476 /* URLSession+sync.swift */; };
+		DAA37AA4292571B2007DA0C1 /* Devices.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA37AA3292571B2007DA0C1 /* Devices.swift */; };
 		DAA811992917306400F60D0D /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA811982917306400F60D0D /* NetworkReachability.swift */; };
 		DAC9AA5B2923F09C003C5678 /* NetworkFailureExitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9AA5A2923F09C003C5678 /* NetworkFailureExitView.swift */; };
 		DAC9AA5D2923F191003C5678 /* OverallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC9AA5C2923F191003C5678 /* OverallView.swift */; };
@@ -57,6 +58,7 @@
 		DA80A7A62900A73D00982476 /* Scorigami.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scorigami.swift; sourceTree = "<group>"; };
 		DA80A7A82901D5A300982476 /* ScorigamiViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorigamiViewModel.swift; sourceTree = "<group>"; };
 		DA80A7AA2903762D00982476 /* URLSession+sync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+sync.swift"; sourceTree = "<group>"; };
+		DAA37AA3292571B2007DA0C1 /* Devices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Devices.swift; sourceTree = "<group>"; };
 		DAA81193291486E100F60D0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAA811982917306400F60D0D /* NetworkReachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		DAC9AA5A2923F09C003C5678 /* NetworkFailureExitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkFailureExitView.swift; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 		DAC9AA542923EE7D003C5678 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				DAA37AA3292571B2007DA0C1 /* Devices.swift */,
 				DAA811982917306400F60D0D /* NetworkReachability.swift */,
 				DA80A7AA2903762D00982476 /* URLSession+sync.swift */,
 			);
@@ -327,6 +330,7 @@
 				DAC9AA5F2923F226003C5678 /* InteractiveView.swift in Sources */,
 				DA80A7AB2903762D00982476 /* URLSession+sync.swift in Sources */,
 				DAA811992917306400F60D0D /* NetworkReachability.swift in Sources */,
+				DAA37AA4292571B2007DA0C1 /* Devices.swift in Sources */,
 				DA80A7A92901D5A300982476 /* ScorigamiViewModel.swift in Sources */,
 				DA80A77A2900A33100982476 /* ScorigamiApp.swift in Sources */,
 				DA0FB3B1290EE09E00014FCE /* AboutView.swift in Sources */,

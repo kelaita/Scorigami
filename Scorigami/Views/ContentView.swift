@@ -7,10 +7,6 @@
 
 import SwiftUI
 
-let iPhoneCellHeight: CGFloat = 8.0
-let iPhoneCellWidth: CGFloat = 4.5
-let iPhoneScreenWidth: CGFloat = 333
-
 struct ContentView: View {
   
   @StateObject var viewModel: ScorigamiViewModel  = ScorigamiViewModel()
